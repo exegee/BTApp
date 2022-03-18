@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BTApp.Properties
-{
-
-
+namespace BTApp.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -19,52 +19,68 @@ namespace BTApp.Properties
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BTApp.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device;;Code;Description
+        ///M4500;Main;E00;Przerwany obwód bezpieczeństwa stopów awaryjnych
+        ///M4501;Main;E01;Przerwany obwód bezpieczeństwa bramek zespołu gilotyny
+        ///M4502;Main;E02;Przerwany obwód bezpieczeństwa bramek zespołu rozcinania
+        ///M4503;Main;E03;
+        ///M4504;Main;E04;Przerwany obwód bezpieczeństwa bramek zespołu Z
+        ///M4505;Main;E05;
+        ///M4506;Main;E06;
+        ///M4507;Main;E07;
+        ///M4508;Main;E08;
+        ///M4509;Main;E09;
+        ///M4510;Main;E10;
+        ///M4511;Main;E11;
+        ///M4512;Main;E12;
+        ///M4513;Main;E13;
+        ///M4514;Main;E14;Awaria modułu master sieci C [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Evromat2022_MA595_IO_v1_7 {
+            get {
+                return ResourceManager.GetString("Evromat2022_MA595_IO_v1_7", resourceCulture);
             }
         }
     }

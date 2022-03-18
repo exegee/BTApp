@@ -1,0 +1,161 @@
+﻿Device;Module;Code;Description
+M4500;Main;E00;Przerwany obwód bezpieczeństwa stopów awaryjnych
+M4501;Main;E01;Przerwany obwód bezpieczeństwa bramek zespołu gilotyny
+M4502;Main;E02;Przerwany obwód bezpieczeństwa bramek zespołu rozcinania
+M4503;Main;E03;
+M4504;Main;E04;Przerwany obwód bezpieczeństwa bramek zespołu Z
+M4505;Main;E05;
+M4506;Main;E06;
+M4507;Main;E07;
+M4508;Main;E08;
+M4509;Main;E09;
+M4510;Main;E10;
+M4511;Main;E11;
+M4512;Main;E12;
+M4513;Main;E13;
+M4514;Main;E14;Awaria modułu master sieci CC-Link
+M4515;Main;E15;Niskie napięcie baterii PLC
+M4516;Decoiler;E100;
+M4517;Decoiler;E101;
+M4518;Decoiler;E102;Awaria stacji zdalnych I/O ST1 zespołu R
+M4519;Decoiler;E103;Błędne utawienie ramienia rolki dociskowej
+M4520;Decoiler;E104;Awaria połączenia sieciowego falownika RU1
+M4521;Decoiler;E105;Awaria połączenia sieciowego falownika RU4
+M4522;Decoiler;E106;Ramię reakcyjne rozwijacza za wysoko
+M4523;Decoiler;E107;Awaria napędu RU1
+M4524;Decoiler;E108;Awaria napędu RU4
+M4525;Decoiler;E109;Awaria czasu pracy hydrauliki zespołu R
+M4526;Decoiler;E110;Awaria falownika wózka kręgów RU2
+M4527;Decoiler;E111;Podpora rozwijacza nie została zamknięta
+M4528;Decoiler;E112;Wał wrzeciona rozwijacza nie został podparty
+M4529;Decoiler;E113;Awaria zasilania +24VDC zespołu R
+M4530;Decoiler;E114;Uszkodzenie w obwodzie czujnika ramienia reakcyjnego
+M4531;Decoiler;E115;
+M4532;Straightener;E200;
+M4533;Straightener;E201;
+M4534;Straightener;E202;Awaria stacji zdalnych I/O ST2 zespołu P
+M4535;Straightener;E203;
+M4536;Straightener;E204;Awaria połączenia sieciowego falownika PU1
+M4537;Straightener;E205;Awaria zabezpieczenia napędów podnoszenia prostownicy
+M4538;Straightener;E206;Awaria zakresu regulacji prostownicy
+M4539;Straightener;E207;Awaria napędu PU1
+M4540;Straightener;E208;
+M4541;Straightener;E209;Awaria zbyt dużej wartości zapasu wysuniętego przez prostownicę
+M4542;Straightener;E210;Podpora wałów rozcinania wzdłużnego nie na miejscu
+M4543;Straightener;E211;
+M4544;Straightener;E212;Awaria czasu pracy hydrauliki zespołu P
+M4545;Straightener;E213;Awaria zasilania +24VDC zespołu P
+M4546;Straightener;E214;Uszkodzenie w obwodzie czujnika pomiaru połozenia prostownicy początek
+M4547;Straightener;E215;Uszkodzenie w obwodzie czujnika pomiaru połozenia prostownicy koniec
+M4548;Slitting;E300;Awaria obwodu bezpieczeństwa stopów awaryjnych
+M4549;Slitting;E301;Awaria obwodu bezpieczeństwa bramek serwisowych zespołu C
+M4550;Slitting;E302;Awaria stacji zdalnych I/O ST3 zespołu C
+M4551;Slitting;E303;
+M4552;Slitting;E304;
+M4553;Slitting;E305;Awaria połączenia sieciowego falownika PU1
+M4554;Slitting;E306;Awaria położenia gilotyny w trakcie wysuwu
+M4555;Slitting;E307;
+M4556;Slitting;E308;Awaria napędu rolki rozcinania wzdłużnego
+M4557;Slitting;E309;
+M4558;Slitting;E310;
+M4559;Slitting;E311;
+M4560;Slitting;E312;Awaria czasu pracy hydrauliki zespołu C
+M4561;Slitting;E313;Awaria zasilania +24VDC zespołu C
+M4562;Slitting;E314;
+M4563;Slitting;E315;
+M4564;Guillotine;E400;
+M4565;Guillotine;E401;Awaria obwodu bezpieczeństwa bramek serwisowych zespołu G
+M4566;Guillotine;E402;Awaria stacji zdalnych I/O ST4 zespołu G
+M4567;Guillotine;E403;Awaria stacji zdalnych I/O ST5 zespołu G
+M4568;Guillotine;E404;Awaria połaczenia sieciowego falownika GU1
+M4569;Guillotine;E405;Awaria połaczenia sieciowego falownika GU2
+M4570;Guillotine;E406;Awaria gilotyna  - gilotyna nie jest w górnym położeniu
+M4571;Guillotine;E407;Awaria napędu GU1
+M4572;Guillotine;E408;Awaria napędu GU2
+M4573;Guillotine;E409;Awaria czasu cięcia gilotyną
+M4574;Guillotine;E410;Awaria przekroczenia czasu pracy platformy odkaładacza
+M4575;Guillotine;E411;
+M4576;Guillotine;E412;Awaria hydrauliki zespołu G
+M4577;Guillotine;E413;Awaria zasilania +24VDC zespołu G
+M4578;Guillotine;E414;
+M4579;Guillotine;E415;
+M4580;Tower;E500;
+M4581;Tower;E501;
+M4582;Tower;E502;
+M4583;Tower;E503;
+M4584;Tower;E504;
+M4585;Tower;E505;
+M4586;Tower;E506;
+M4587;Tower;E507;
+M4588;Tower;E508;
+M4589;Tower;E509;
+M4590;Tower;E510;
+M4591;Tower;E511;
+M4592;Tower;E512;
+M4593;Tower;E513;
+M4594;Tower;E514;
+M4595;Tower;E515;
+M4596;Tower;E516;
+M4597;Tower;E517;
+M4598;Tower;E518;
+M4599;Tower;E519;
+M4600;Tower;E520;
+M4601;Tower;E521;
+M4602;Tower;E522;
+M4603;Tower;E523;
+M4604;Tower;E524;
+M4605;Tower;E525;
+M4606;Tower;E526;
+M4607;Tower;E527;
+M4608;Tower;E528;
+M4609;Tower;E529;
+M4610;Tower;E530;
+M4611;Tower;E531;
+M4612;Sheet guiding;E600;
+M4613;Sheet guiding;E601;
+M4614;Sheet guiding;E602;Awaria stacji zdalnych I/O ST7 zespołu Z
+M4615;Sheet guiding;E603;Awaria stacji zdalnych I/O ST8 zespołu Z
+M4616;Sheet guiding;E604;Awaria stacji zdalnych I/O ST9 zespołu Z
+M4617;Sheet guiding;E605;
+M4618;Sheet guiding;E606;Awaria falownika wału prowadzącego ZU1
+M4619;Sheet guiding;E607;Awaria falownika rolki wprowadzania ZU2
+M4620;Sheet guiding;E608;Awaria wał prowadzący poza zakresem pracy
+M4621;Sheet guiding;E609;Uszkodzenie w obwodzie czujnika ciśnienia hamulca nr 1
+M4622;Sheet guiding;E610;Uszkodzenie w obwodzie czujnika ciśnienia hamulca nr 2
+M4623;Sheet guiding;E611;Awaria wał prowadzący nie jest w pozycji dolnej
+M4624;Sheet guiding;E612;Stół pomocniczy nawijacza nie jest w dolnej pozycji
+M4625;Sheet guiding;E613;
+M4626;Sheet guiding;E614;Uszkodzenie w obwodzie czujnika ramienia reakcyjnego w dole kompensacyjnym
+M4627;Sheet guiding;E615;Uszkodzenie w obwodzie czujnika położenia wału prowadzącego
+M4628;Recoiler;E600;Pozycja nawijacza poza zakresem pracy
+M4629;Recoiler;E601;Za duzy krąg nawijanej blachy roziętej, koniec zakresu separatora
+M4630;Recoiler;E602;Awaria stacji zdalnych I/O ST10 zespołu N
+M4631;Recoiler;E603;Awaria stacji zdalnych I/O ST11 zespołu N
+M4632;Recoiler;E604;Awaria stacji zdalnych I/O ST12 zespołu N
+M4633;Recoiler;E605;Awaria połaczenia sieciowego falownika NU1
+M4634;Recoiler;E606;Awaria połaczenia sieciowego falownika NU4
+M4635;Recoiler;E607;Awaria ramię w dole kompensacyjnym za wysoko
+M4636;Recoiler;E608;Awaria napędu NU1
+M4637;Recoiler;E609;Awaria napędu NU4
+M4638;Recoiler;E610;Awaria czasu pracy hydrauliki zespołu N
+M4639;Recoiler;E611;Awaria falownika NU2 wózka kręgów 
+M4640;Recoiler;E612;Brama podpory nawijacza niezamknięta
+M4641;Recoiler;E613;Wał wrzeciona nawijacza niepodparty
+M4642;Recoiler;E614;Awaria zasilania +24VDC zespołu N
+M4643;Recoiler;E615;Uszkodzenie w obwodzie czujnika pomiaru ciśnienia rozpierania kręgu
+M4644;Recoiler;E616;Uszkodzenie w obwodzie czujnika krawędzi nawijanej blachy
+M4645;Recoiler;E617;
+M4646;Recoiler;E618;
+M4647;Recoiler;E619;
+M4648;Recoiler;E620;
+M4649;Recoiler;E621;
+M4650;Recoiler;E622;
+M4651;Recoiler;E623;
+M4652;Recoiler;E624;
+M4653;Recoiler;E625;
+M4654;Recoiler;E626;
+M4655;Recoiler;E627;
+M4656;Recoiler;E628;
+M4657;Recoiler;E629;
+M4658;Recoiler;E630;
+M4659;Recoiler;E631;
