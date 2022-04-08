@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace BTApp.Converters
 {
-    internal class NumberToStringConverter : IValueConverter
+    public class NumberToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -1,4 +1,5 @@
 ﻿using BTApp.Helpers;
+using BTApp.Models;
 using System;
 using System.Configuration;
 using System.IO;
@@ -26,14 +27,17 @@ namespace BTApp.Common
         /// <summary>
         /// Konstruktor
         /// </summary>
-        public FolderScan()
+        public FolderScan(string importPath, string exportPath, string fileName)
         {
             // ----------------------------------
             // Pobranie wartości konfiguracyjnych
             // ----------------------------------
-            _scanDirectoryPath = ConfigurationManager.AppSettings["importPath"];
-            _exportDirectoryPath = ConfigurationManager.AppSettings["exportPath"];
-            _importFileName = ConfigurationManager.AppSettings["fileName"];
+            //_scanDirectoryPath = ConfigurationManager.AppSettings["importPath"];
+            //_exportDirectoryPath = ConfigurationManager.AppSettings["exportPath"];
+            //_importFileName = ConfigurationManager.AppSettings["fileName"];
+            _scanDirectoryPath = importPath;
+            _exportDirectoryPath = exportPath;
+            _importFileName = fileName;
 
             try
             {
@@ -42,6 +46,7 @@ namespace BTApp.Common
             catch (Exception e)
             {
                 _debugMode.ConsoleWriteLine(e.Message);
+                DebugMode.WriteErrorToLogFile(e.Message);
             }
             // ----------------------------------
 
@@ -54,6 +59,19 @@ namespace BTApp.Common
             });
         }
 
+        public bool updateSettings(Settings settings)
+        {
+            bool result = false;
+
+            if (settings != null)
+            {
+                _scanDirectoryPath = settings.ImportPath;
+                _exportDirectoryPath = settings.ExportPath;
+                _importFileName = settings.FileName;
+                result = true;
+            }
+            return result;
+        }
         /// <summary>
         /// Metoda uruchamia wątek skowania folderu
         /// </summary>
@@ -108,6 +126,7 @@ namespace BTApp.Common
                 catch (Exception e)
                 {
                     _debugMode.ConsoleWriteLine(e.Message);
+                    DebugMode.WriteErrorToLogFile(e.Message);
                 }
                 Thread.Sleep(1000);
             }

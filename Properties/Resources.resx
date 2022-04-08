@@ -121,4 +121,7 @@
   <data name="Evromat2022_MA595_IO_v1_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Evromat2022_MA595_IO v1.7.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Lista_Bramek" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Lista_Bramek.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

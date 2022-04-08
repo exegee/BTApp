@@ -61,7 +61,7 @@ namespace BTApp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Device;;Code;Description
+        ///   Looks up a localized string similar to Device;Module;Code;Description
         ///M4500;Main;E00;Przerwany obwód bezpieczeństwa stopów awaryjnych
         ///M4501;Main;E01;Przerwany obwód bezpieczeństwa bramek zespołu gilotyny
         ///M4502;Main;E02;Przerwany obwód bezpieczeństwa bramek zespołu rozcinania
@@ -76,11 +76,38 @@ namespace BTApp.Properties {
         ///M4511;Main;E11;
         ///M4512;Main;E12;
         ///M4513;Main;E13;
-        ///M4514;Main;E14;Awaria modułu master sieci C [rest of string was truncated]&quot;;.
+        ///M4514;Main;E14;Awaria modułu master s [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Evromat2022_MA595_IO_v1_7 {
             get {
                 return ResourceManager.GetString("Evromat2022_MA595_IO_v1_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1;Lokalizacja 1
+        ///2;Lokalizacja 2
+        ///3;Lokalizacja 3
+        ///4;Lokalizacja 4
+        ///5;Lokalizacja 5
+        ///6;Lokalizacja 6
+        ///7;Lokalizacja 7
+        ///8;Lokalizacja 8
+        ///9;Lokalizacja 9
+        ///10;Lokalizacja 10
+        ///11;Lokalizacja 11
+        ///12;Lokalizacja 12
+        ///13;Lokalizacja 13
+        ///14;Lokalizacja 14
+        ///15;Lokalizacja 15
+        ///16;Lokalizacja 16
+        ///17;Lokalizacja 17
+        ///18;Lokalizacja 18
+        ///.
+        /// </summary>
+        internal static string Lista_Bramek {
+            get {
+                return ResourceManager.GetString("Lista_Bramek", resourceCulture);
             }
         }
     }

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTApp", "BTApp.csproj", "{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "..\Setup1\Setup1.vdproj", "{81DB9399-4440-4893-A10B-8683465FE1EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DB9399-4440-4893-A10B-8683465FE1EF}.Debug|Any CPU.ActiveCfg = Debug
+		{81DB9399-4440-4893-A10B-8683465FE1EF}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

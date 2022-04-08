@@ -54,11 +54,18 @@ namespace BTApp.Common
         /// </summary>
         public List<Device> Devices = new List<Device>()
         {
-         new Device{Name="D4501", Size=2, Value=0, OldValue=0, Comment="Długość w zleceniu"},
-         new Device{Name="D4503", Size=1, Value=0, OldValue=0, Comment="Ilość z zleceniu"},
-         new Device{Name="D4504", Size=1, Value=0, OldValue=0, Comment="Grzałka"},
-         new Device{Name="D4505", Size=2, Value=0, OldValue=0, Comment="Wartość enkodera"},
-         new Device{Name="D4507", Size=2, Value=0, OldValue=0, Comment="Całkowita długość"},
+         new Device{Name="D4501", Size=2, Value=0, OldValue=0, Comment="Operating Mode"},
+         new Device{Name="D4503", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},
+         new Device{Name="D4505", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},
+         new Device{Name="D4507", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},
+         new Device{Name="D4509", Size=2, Value=0, OldValue=0, Comment="Actual decoiler speed"},
+         new Device{Name="D4511", Size=2, Value=0, OldValue=0, Comment="Actual recoiler speed"},
+         new Device{Name="D4513", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},
+         new Device{Name="D4515", Size=1, Value=0, OldValue=0, Comment="Already cut stripes"},
+         new Device{Name="D4514", Size=1, Value=0, OldValue=0, Comment="Total amount of stripes"},
+         new Device{Name="D4516", Size=2, Value=0, OldValue=0, Comment="Stripes Width"},
+         new Device{Name="D4517", Size=1, Value=0, OldValue=0, Comment="Stripes Number"},
+         new Device{Name="D4518", Size=2, Value=0, OldValue=0, Comment="Service Gates"}
         };
 
         /// <summary>
@@ -73,7 +80,7 @@ namespace BTApp.Common
             //_connectionTimout = Convert.ToInt32(ConfigurationManager.AppSettings["plcConnectionTimout"]);
             //_plcRefreshRate = Convert.ToInt32(ConfigurationManager.AppSettings["plcRefreshRate"]);
             //_plcPassword = ConfigurationManager.AppSettings["plcPassword"];
-            _possiblePlcErrorsList = PlcErrorsUploadHelper.GetErrorsFromCSV();
+            _possiblePlcErrorsList = CsvUploadHelper<PlcError>.GetErrorsFromCSV(Properties.Resources.Evromat2022_MA595_IO_v1_7);
             _tMonitor = new Thread(wMonitor);
             _tMonitor.SetApartmentState(ApartmentState.STA);
             _debugMode.ConsoleWriteLine("Connecting to PLC...");
@@ -83,7 +90,7 @@ namespace BTApp.Common
             _plcConnectionTimeout = timeout;
             _plcRefreshRate = refreshTime;
 
-    }
+        }
         
         /// <summary>
         /// Metoda rozpoczyna wątek monitora PLC
@@ -110,6 +117,7 @@ namespace BTApp.Common
             //_ActLCPUTCP = NewConnection();
             int data = 0;
             bool flag = false;
+            int status = 0;
 
             int connectionStatus;
             PLCConnectionStatus isConnectedMem = PLCConnectionStatus.Connecting;
@@ -127,8 +135,8 @@ namespace BTApp.Common
                     // Sprawdz polaczenie z PLC
                     try
                     {
-                        _ActLCPUTCP.GetDevice(PLC_READY_REG, out connectionStatus);
-                        isConnected = (connectionStatus == 1) ? PLCConnectionStatus.Connected : PLCConnectionStatus.NotConnected;
+                        status = _ActLCPUTCP.GetDevice(PLC_READY_REG, out connectionStatus);
+                        isConnected = (connectionStatus == 1 && status == 0) ? PLCConnectionStatus.Connected : PLCConnectionStatus.NotConnected;
                         if (isConnected != isConnectedMem)
                         {
                             isConnectedMem = isConnected;
@@ -138,6 +146,7 @@ namespace BTApp.Common
                     catch (Exception e)
                     {
                         _debugMode.ConsoleWriteLine(e.Message);
+                        DebugMode.WriteErrorToLogFile("PLC connection failed: " + e.Message);
                         _ActLCPUTCP.Close();
                     }
                     // Jeśli połączenie aktywne odczytaj pozostałe dane
@@ -159,7 +168,7 @@ namespace BTApp.Common
 
 
 
-                            if (currentMachineStateCode != MachineStatusCode)
+                           if (currentMachineStateCode != MachineStatusCode)
                             {
                                 MachineStatusCode = currentMachineStateCode;
                                 OnMachineStatusChange();
@@ -193,7 +202,14 @@ namespace BTApp.Common
                         {
                             _debugMode.ConsoleWriteLine(e.Message);
                             _ActLCPUTCP.Close();
+                            DebugMode.WriteErrorToLogFile("PLC data read failed" + e.Message);
                         }
+                    }
+                    else
+                    {
+                        currentMachineStateCode = 0;
+                        MachineStatusCode = currentMachineStateCode;
+                        OnMachineStatusChange();
                     }
 
                     //_ActLCPUTCP.Close();
@@ -421,9 +437,15 @@ namespace BTApp.Common
                             {
                                 //TODO log old error in log list (probably .db would be the best)
                                 tempVal.OccurenceTime = DateTime.Now;
-                                DatabaseHelper.Insert(tempVal);
-                                OnLogedErrorChange();
-                                OnActiveErrorChange();
+                                try
+                                {
+                                    DatabaseHelper.Insert(tempVal);
+                                    OnLogedErrorChange();
+                                    OnActiveErrorChange();
+                                }catch (Exception ex)
+                                {
+                                    DebugMode.WriteErrorToLogFile("PLC error log failed: " + ex.Message);
+                                }
                             }
 
                         }

@@ -68,55 +68,156 @@ namespace BTApp.ViewModels
                 NotifyPropertyChanged();
             }
         }
-        private float _orderTotalLength { get; set; }
-        public float OrderTotalLength
+        private float _totalLength { get; set; }
+        public float TotalLength
         {
             get
             {
-                return _orderTotalLength;
+                return _totalLength;
             }
             set
             {
-                _orderTotalLength = value;
+                _totalLength = value;
                 NotifyPropertyChanged();
             }
         }
-        private float _orderHeater { get; set; }
-        public float OrderHeater
+
+        private int _operatingMode { get; set; }
+        public int OperatingMode
         {
             get
             {
-                return _orderHeater;
+                return _operatingMode;
             }
             set
             {
-                _orderHeater = value;
+                _operatingMode = value;
                 NotifyPropertyChanged();
             }
         }
-        private int _orderQuantity { get; set; }
-        public int OrderQuantity
+
+        private float _recoilingSpeed { get; set; }
+        public float RecoilingSpeed
         {
             get
             {
-                return _orderQuantity;
+                return _recoilingSpeed;
             }
             set
             {
-                _orderQuantity = value;
+                _recoilingSpeed = value;
                 NotifyPropertyChanged();
             }
         }
-        private float _orderLength { get; set; }
-        public float OrderLength
+
+        private float _actualDecoilerPower { get; set; }
+        public float ActualDecoilerPower
         {
             get
             {
-                return _orderLength;
+                return _actualDecoilerPower;
             }
             set
             {
-                _orderLength = value;
+                _actualDecoilerPower = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private float _actualRecoilerPower { get; set; }
+        public float ActualRecoilerPower
+        {
+            get
+            {
+                return _actualRecoilerPower;
+            }
+            set
+            {
+                _actualRecoilerPower = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private float _cuttingSpeed { get; set; }
+        public float CuttingSpeed
+        {
+            get
+            {
+                return _cuttingSpeed;
+            }
+            set
+            {
+                _cuttingSpeed = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private float _stripesAlreadyCut { get; set; }
+        public float StripesAlreadyCut
+        {
+            get
+            {
+                return _stripesAlreadyCut;
+            }
+            set
+            {
+                _stripesAlreadyCut = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _stripesTotalQty { get; set; }
+        public int StripesTotalQty
+        {
+            get
+            {
+                return _stripesTotalQty;
+            }
+            set
+            {
+                _stripesTotalQty = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private float _stripesWidth { get; set; }
+        public float StripesWidth
+        {
+            get
+            {
+                return _stripesWidth;
+            }
+            set
+            {
+                _stripesWidth = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _stripesNumber { get; set; }
+        public int StripesNumber
+        {
+            get
+            {
+                return _stripesNumber;
+            }
+            set
+            {
+                _stripesNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ServiceGates _serviceGates { get; set; }
+        public ServiceGates ServiceGates
+        {
+            get
+            {
+                return _serviceGates;
+            }
+            set
+            {
+                _serviceGates = value;
                 NotifyPropertyChanged();
             }
         }
@@ -188,11 +289,7 @@ namespace BTApp.ViewModels
         /// </summary>
         public MainWindowViewModel()
         {
-            
-            _folderScan = new FolderScan();
-            _orderConverter = new OrderConverter();
-            _folderScan.fileDetected += _folderScan_fileDetected;
-            _orderConverter.OrderProcessingFinished += _orderConverter_OrderProcessingFinished;
+            Settings = new Settings();
             ShowLastOrderCommand = new LastOrderCommand(DisplayLastOrderView);
             OnWindowLoadedCommand = new OnWindowLoadedCommand(OnWindowLoaded);
             OnWindowUnloadedCommand = new OnWindowUnloadedCommand(OnWindowUnloaded);
@@ -204,10 +301,8 @@ namespace BTApp.ViewModels
             onSaveSettingsInDBCommand = new SaveSettingsInDBCommand(this);
             ActivePlcErrors = new List<PlcError>();
             LogedErrors = new List<PlcError>();
-            Settings = new Settings();
-            SeedSettingsData();
-            //testing
-
+            ServiceGates = new ServiceGates(89067);
+           
         }
 
         /// <summary>
@@ -225,9 +320,21 @@ namespace BTApp.ViewModels
         /// </summary>
         void OnWindowLoaded()
         {
+            try
+            {
+                SeedSettingsData();
+            }
+            catch (Exception ex)
+            {
+                DebugMode.WriteErrorToLogFile("Seeding data error: " + ex.Message);
+            }
+            _folderScan = new FolderScan(Settings.ImportPath,Settings.ExportPath,Settings.FileName);
+            _orderConverter = new OrderConverter();
+            _folderScan.fileDetected += _folderScan_fileDetected;
+            _orderConverter.OrderProcessingFinished += _orderConverter_OrderProcessingFinished;
             _folderScan.Begin();
-            _fTPClient = new FTPClient();
-            _plc = new PLC(Settings.PlcIPAddress,Settings.PlcPassword,Settings.PlcConnectionTimeout,Settings.PlcRefreshRate);
+            _fTPClient = new FTPClient(Settings.GOTRecordExtension,Settings.GOTIPAddress,Settings.GOTFTPPort,Settings.GOTRecipeFileNameTemplate,Settings.GOTRecordsNum);
+            _plc = new PLC(Settings.PlcIPAddress, Settings.PlcPassword, Settings.PlcConnectionTimeout, Settings.PlcRefreshRate);
             _plc.Begin();
             _plc.PLCStatusChange += _plc_PLCStatusChange;
             _plc.MachineStatusChange += _plc_MachineStatusChange;
@@ -235,7 +342,8 @@ namespace BTApp.ViewModels
             _plc.DataChange += _dataChange;
             _plc.ActiveErrorChange += _plc_ActiveErrorChange;
             _plc.LogedErrorChange += _plc_LogedErrorChange;
-            GetErrorLogs();
+             GetErrorLogs();
+
         }
 
         /// <summary>
@@ -247,11 +355,20 @@ namespace BTApp.ViewModels
         {
             PLC plc = sender as PLC;
             devices = new ObservableCollection<Device>(plc.Devices);
-            OrderLength = devices[0].Value / 1000f;
-            OrderQuantity = devices[1].Value;
-            OrderHeater = devices[2].Value /10f;
-            CurrentLengthExecuted = devices[3].Value / 1000f;
-            OrderTotalLength = devices[4].Value / 1000f;
+            //TODO add values scaling
+            OperatingMode = devices[0].Value;
+            RecoilingSpeed = devices[1].Value;
+            CurrentLengthExecuted = devices[2].Value / 1000f;
+            TotalLength = devices[3].Value / 1000f;
+            ActualDecoilerPower = devices[4].Value;
+            ActualRecoilerPower = devices[5].Value;
+            CuttingSpeed = devices[6].Value;
+            StripesAlreadyCut = devices[7].Value;
+            StripesTotalQty = devices[8].Value;
+            StripesWidth = devices[9].Value;
+            StripesNumber = devices[10].Value;
+            //ServiceGates.updateState(devices[11].Value);
+            ServiceGates.updateState(13);
         }
 
         private void _dataChange(object sender, EventArgs e)
@@ -268,7 +385,7 @@ namespace BTApp.ViewModels
         private void _plc_MachineStatusChange(object sender, EventArgs e)
         {
             PLC plc = sender as PLC;
-            var test = new Machine().State;
+            //var test = new Machine().State;
             machineStatus = new Machine().State.Find(state => state.Key == plc.MachineStatusCode).Value;
         }
 
@@ -376,12 +493,18 @@ namespace BTApp.ViewModels
             switch (type)
             {
                 case "Import":
-                    Settings.ImportPath = path;
-                    NotifyPropertyChanged("Settings");
+                    if (!String.IsNullOrEmpty(path))
+                    {
+                        Settings.ImportPath = path;
+                        NotifyPropertyChanged("Settings");
+                    }
                     break;
                 case "Export":
-                    Settings.ExportPath = path;
-                    NotifyPropertyChanged("Settings");
+                    if (!String.IsNullOrEmpty(path))
+                    {
+                        Settings.ExportPath = path;
+                        NotifyPropertyChanged("Settings");
+                    }
                     break;
                 default:
                     break;
@@ -403,8 +526,10 @@ namespace BTApp.ViewModels
         public void SaveSettingsInDB()
         {
             _plc.updateSettings(Settings);
+            _fTPClient.updateSettings(Settings);
+            _folderScan.updateSettings(Settings);
 
-            if(Settings.SettingsId != null)
+            if (Settings.SettingsId != null)
             {
                 DatabaseHelper.Update(Settings);
             }
@@ -464,6 +589,7 @@ namespace BTApp.ViewModels
                 Settings.GOTRecipeFileNameTemplate = setList[0].GOTRecipeFileNameTemplate;
                 Settings.ServiceUri = setList[0].ServiceUri;
             }
+            NotifyPropertyChanged("Settings");
         }
 
     }

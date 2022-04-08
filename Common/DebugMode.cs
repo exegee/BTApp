@@ -7,7 +7,7 @@ namespace BTApp.Common
     public class DebugMode
     {
         private bool _debugMode = false;
-        private string logFile = "Log.txt";
+        private static string logFile = "C:\\Users\\WKS6\\Desktop\\Log.txt";
 
         /// <summary>
         /// Konstruktor
@@ -127,6 +127,22 @@ namespace BTApp.Common
             catch (Exception e)
             {
                 ConsoleWrite(e.Message);
+            }
+        }
+
+        public static void WriteErrorToLogFile(string text)
+        {
+            try
+            {
+                using (StreamWriter w = File.AppendText(logFile))
+                {
+                    string txt = DateTime.Now.ToString() + ": " + text;
+                    w.WriteLine(txt);
+                }
+            }
+            catch (Exception e)
+            {
+                //ConsoleWrite(e.Message);
             }
         }
     }

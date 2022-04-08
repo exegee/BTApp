@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using BTApp.Common;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,11 +11,12 @@ namespace BTApp.Helpers
 {
     public class DatabaseHelper
     {
-        private static string dbBTAppFile = Path.Combine(Environment.CurrentDirectory, "BTAppDB.db");
+        private static string dbBTAppFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BTAppDB.db");
 
         public static bool Insert<T>(T item)
         {
             bool result = false;
+            DebugMode.WriteErrorToLogFile(dbBTAppFile);
 
             using(SQLiteConnection conn = new SQLiteConnection(dbBTAppFile))
             {
@@ -32,7 +34,7 @@ namespace BTApp.Helpers
         public static bool Update<T>(T item)
         {
             bool result = false;
-
+            DebugMode.WriteErrorToLogFile(dbBTAppFile);
             using (SQLiteConnection conn = new SQLiteConnection(dbBTAppFile))
             {
                 conn.CreateTable<T> ();
@@ -48,7 +50,7 @@ namespace BTApp.Helpers
         public static bool Delete<T>(T item)
         {
             bool result = false;
-
+            DebugMode.WriteErrorToLogFile(dbBTAppFile);
             using (SQLiteConnection conn = new SQLiteConnection(dbBTAppFile))
             {
                 conn.CreateTable<T>();
@@ -64,12 +66,19 @@ namespace BTApp.Helpers
         public static List<T>Read<T>() where T: new()
         {
             List<T> list = new List<T>();
-
-            using(SQLiteConnection conn = new SQLiteConnection(dbBTAppFile))
+            DebugMode.WriteErrorToLogFile(dbBTAppFile);
+            try
             {
-                conn.CreateTable<T>();
-                list = conn.Table<T>().ToList();
+                using (SQLiteConnection conn = new SQLiteConnection(dbBTAppFile))
+                {
+                    conn.CreateTable<T>();
+                    list = conn.Table<T>().ToList();
+                }
+            }catch (Exception ex)
+            {
+                DebugMode.WriteErrorToLogFile("Read errors failed: " + ex.Message);
             }
+
 
             return list;
         }
@@ -77,7 +86,7 @@ namespace BTApp.Helpers
         public static bool DeleteAll<T>()
         {
             bool result = false;
-
+            DebugMode.WriteErrorToLogFile(dbBTAppFile);
             using (SQLiteConnection conn = new SQLiteConnection(dbBTAppFile))
             {
                 conn.CreateTable<T>();

@@ -1,4 +1,5 @@
-﻿using BTApp.Helpers;
+﻿using BTApp.Common;
+using BTApp.Helpers;
 using BTApp.Services;
 using BTApp.ViewModels;
 using Microsoft.Win32;
@@ -17,8 +18,17 @@ namespace BTApp
     {
         public MainWindow()
         {
-            DataContext = new MainWindowViewModel();
-            InitializeComponent();
+            try
+            {
+                DataContext = new MainWindowViewModel();
+                InitializeComponent();
+                DebugMode.WriteErrorToLogFile("Main window initialized");
+            }
+            catch (Exception ex)
+            {
+                DebugMode.WriteErrorToLogFile(ex.Message);
+            }
+
         }
     }
 }

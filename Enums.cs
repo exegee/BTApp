@@ -22,6 +22,19 @@ namespace BTApp
             new KeyValuePair<int, string>(111, "AWARIA w zespole rozcinania"),
             new KeyValuePair<int, string>(112, "AWARIA w zespole prowadzenia"),
             new KeyValuePair<int, string>(113, "AWARIA w zespole nawijacza"),
-            };
+        };
+
+        //public List<KeyValuePair<int, string>> OperatingMode = new List<KeyValuePair<int, string>>(){
+        //    new KeyValuePair<int, string> (0,"Recoiling"),
+        //    new KeyValuePair<int, string>(1, "Sheeting")
+        //};
     }
+
+    public enum PLCOperatingMode
+    {
+        Recoiling = 0,
+        Sheeting = 1,
+    }
+
+
 }
