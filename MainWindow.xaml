@@ -29,6 +29,8 @@
         <converters:OperatingModeToVisibilityOptConverter x:Key="OperatingModeToVisibilityOpt"/>
         <converters:ServiceGatesToColorConverter x:Key="ServiceGatesToColor"/>
         <converters:ServiceGatesToStringConverter x:Key="ServiceGatesToString"/>
+        <converters:PLCConnectionStatusToVisibilityConverter x:Key="PLCConnectionStatusToVisibility"/>
+        <converters:PLCConnectionStatusToGatesStateErrorDisplay x:Key="PLCConnectionStatusToGatesStateErrorDisplay"/>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Foreground" Value="Black"/>
@@ -126,7 +128,7 @@
                 </Border>
 
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center" Background="gray">
-                    <TextBlock Text="Linia do rozcinania" FontSize="50"
+                    <TextBlock Text="ST Combo" FontSize="50"
                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Image Source="{Binding machineStatus, Converter={StaticResource MachineStatusToBitmapConverter}}" HorizontalAlignment="Right"
                         Width="40" Height="40" Margin="15,0,0,0"/>
@@ -149,7 +151,7 @@
                 <!-- **************** NAGŁÓWEK ***************** -->
 
                 <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center"  VerticalAlignment="Top" Orientation="Horizontal" Margin="0,4,0,0">
-                    <TextBlock Text="Aktualna produkcja: " FontSize="45" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
+                    <TextBlock Text="Current production: " FontSize="45" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding OperatingMode, Converter={StaticResource OperatingModeToString}}" FontStyle="Italic" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="DarkOrange"/>
                 </StackPanel>
 
@@ -171,7 +173,7 @@
                         </Grid.ColumnDefinitions>
                         <!--Szybkość przewijanej blachy-->
                         <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Szybkość przewijania" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Recoiling speed" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding RecoilingSpeed}"/>
                                 <Run Text=" m/min"/>
@@ -180,18 +182,18 @@
 
                         <!--ilość przewiniętej blachy-->
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Przewinięta blacha" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Recoiled distance" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40,0,0,0"  Style="{StaticResource DataText}">
                                 <Run Text="{Binding CurrentLengthExecuted}"/>
                                 <Run Text="/"/>
                                 <Run Text="{Binding TotalLength}"/>
-                                <Run Text=" mb"/>
+                                <Run Text=" m"/>
                             </TextBlock>
                         </StackPanel>
 
                         <!--moc obciążenia rozwijacza-->
                         <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Moc rozwijacza" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Decoiler power" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding ActualDecoilerPower}"/>
                                 <Run Text=" %"/>
@@ -200,7 +202,7 @@
 
                         <!--moc obciążenia nawijacza-->
                         <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Moc nawijacza" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Recoiler power" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding ActualRecoilerPower}"/>
                                 <Run Text=" %"/>
@@ -209,7 +211,7 @@
 
                         <!--szerokość pasów ?-->
                         <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Szerokość pasów" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Stripes width" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesWidth}"/>
                                 <Run Text=" mm"/>
@@ -218,10 +220,10 @@
 
                         <!--ilość pasów ?-->
                         <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Ilość pasów" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Stripes quantity" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesNumber}"/>
-                                <Run Text=""/>
+                                <Run Text=" Pt."/>
                             </TextBlock>
                         </StackPanel>
 
@@ -244,36 +246,37 @@
                         </Grid.ColumnDefinitions>
                         <!--Szybkość cięcia-->
                         <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Szybkość cięcia" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Slitting Speed" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
-                                <Run Text="{Binding RecoilingSpeed}"/>
-                                <Run Text=" szt./min"/>
+                                <Run Text="{Binding CuttingSpeed}"/>
+                                <Run Text=" Pt./min."/>
                             </TextBlock>
                         </StackPanel>
 
                         <!--ilość uciętych Arkuszy-->
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Ucięte arkusze" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Cut sheets/Total amount" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesAlreadyCut}"/>
-                                <!--<Run Text="/"/>
-                                <Run Text="{Binding OrderLength}"/>-->
-                                <Run Text=" szt."/>
+                                <Run Text="/"/>
+                                <Run Text="{Binding StripesTotalQty}"/>
+                                <!--<Run Text="{Binding OrderLength}"/>-->
+                                <Run Text=" Pt."/>
                             </TextBlock>
                         </StackPanel>
 
                         <!--nastawiona ilość-->
-                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Nastawiona ilość" HorizontalAlignment="Center"/>
+                        <!--<StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Amount to cut" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesTotalQty}"/>
-                                <Run Text=" szt."/>
+                                <Run Text=" Pt."/>
                             </TextBlock>
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <!--szerokość pasów ?-->
                         <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Szerokość pasów" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Stripes Width" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesWidth}"/>
                                 <Run Text=" mm"/>
@@ -282,10 +285,19 @@
 
                         <!--ilość pasów ?-->
                         <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Ilość pasów" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Stripes quantity" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesNumber}"/>
-                                <Run Text="szt."/>
+                                <Run Text="Pt."/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!--długość pasów ?-->
+                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Stripes lenght" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
+                                <Run Text="{Binding StripesLength}"/>
+                                <Run Text="Pt."/>
                             </TextBlock>
                         </StackPanel>
 
@@ -293,10 +305,13 @@
                 </DockPanel>
 
 
-                <TextBlock Text="Stan Bramek: " FontSize="45" Margin="108,0,0,0" Grid.Row="2"  Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding ServiceGates.Gates, Converter={StaticResource ServiceGatesToString}}" FontStyle="Italic" FontSize="45" Foreground="{Binding ServiceGates.Gates, Converter={StaticResource ServiceGatesToColor}}" Grid.Row="3"  Grid.Column="4" 
-                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+                <TextBlock Text="Gates Status: " FontSize="45" Margin="108,0,0,0" Grid.Row="2"  Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ServiceGatesToDisplay, Converter={StaticResource ServiceGatesToString}}" FontStyle="Italic" FontSize="45" 
+                           Foreground="{Binding ServiceGatesToDisplay, Converter={StaticResource ServiceGatesToColor}}" Grid.Row="3"  Grid.Column="4" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding isPLCConnected, Converter={StaticResource PLCConnectionStatusToVisibility}}"/>
+                <TextBlock Text="No Clue" FontSize="45" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Visibility="{Binding isPLCConnected, Converter={StaticResource PLCConnectionStatusToGatesStateErrorDisplay}}"
+                           Grid.Row="3"  Grid.Column="4" />
 
 
                 <!--Szczegóły-->
@@ -378,7 +393,7 @@
                         Command="{Binding onClearErrorHistoryCommand}" CommandParameter="{Binding LogedErrors}" Style="{StaticResource InnerButton}"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Stan bramek">
+        <TabItem Header="Gates Status">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -387,13 +402,14 @@
                     <RowDefinition Height="6*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
-                <Rectangle x:Name="testRect" Margin="0" Width="95" Height="15">
+                <!-- Gate nr 1-->
+                <Rectangle x:Name="testRect" Margin="0,185,900,0" Width="95" Height="15">
                     <Rectangle.Style>
                         <Style TargetType="Rectangle">
                             <Style.Setters>
                                 <Setter Property="StrokeThickness" Value="2"/>
                                 <Setter Property="Stroke" Value="#B80000"/>
-                                <Setter Property="Fill" Value="#C34444"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
@@ -401,7 +417,407 @@
                                     <DataTrigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:1"
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 2 -->
+                <Rectangle Margin="0,125,780,50" Width="10" Height="95">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[1].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 3 -->
+                <Rectangle Margin="0,0,550,35" Width="40" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[2].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 4 -->
+                <Rectangle Margin="0,180,550,0" Width="40" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[3].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 5 -->
+                <Rectangle Margin="0,0,400,40" Width="80" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[4].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 6 -->
+                <Rectangle Margin="0,185,400,0" Width="80" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[5].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 7 -->
+                <Rectangle Margin="0,185,230,0" Width="50" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[6].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 8 -->
+                <Rectangle Margin="0,185,150,0" Width="20" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[7].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 9 -->
+                <Rectangle Margin="0,255,90,0" Width="35" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[8].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 10 -->
+                <Rectangle Margin="18,255,0,0" Width="50" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[9].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 11 -->
+                <Rectangle Margin="100,210,0,0" Width="30" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[10].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 12 -->
+                <Rectangle Margin="100,0,0,193" Width="10" Height="50">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[11].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 13 -->
+                <Rectangle Margin="615,0,0,70" Width="55" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[12].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 14 -->
+                <Rectangle Margin="600,200,0,0" Width="55" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[13].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 15 -->
+                <Rectangle Margin="720,200,0,0" Width="45" Height="10">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[14].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 16 -->
+                <Rectangle Margin="960,70,0,0" Width="10" Height="100">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[15].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
+                                                 AutoReverse="True" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <!-- Gate nr 17 -->
+                <Rectangle Margin="1170,65,0,0" Width="10" Height="100">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Style.Setters>
+                                <Setter Property="StrokeThickness" Value="2"/>
+                                <Setter Property="Stroke" Value="#B80000"/>
+                                <Setter Property="Fill" Value="#ee5555"/>
+                                <Setter Property="Opacity" Value="0.0"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ServiceGates.Gates[16].Active}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
@@ -412,10 +828,9 @@
                     </Rectangle.Style>
                 </Rectangle>
 
-
                 <Image Height="620" Source="Assets/Images/083.000 - top.bmp" HorizontalAlignment="Center" Margin="30,0,30,0" Panel.ZIndex="-1"/>
                 <DataGrid Margin="5,40,5,15" CanUserResizeRows="False" CanUserAddRows="False" AutoGenerateColumns="False"
-                        ItemsSource="{Binding ServiceGates.Gates}"  VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
+                        ItemsSource="{Binding ServiceGatesToDisplay}"  VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="2*"/>
                         <DataGridTextColumn Header="Active" Binding="{Binding Active}" Width="2*"/>
@@ -473,12 +888,12 @@
                         </TextBox.Text>
                     </TextBox>
                 </StackPanel>
-                <Rectangle Margin="10,75,10,0" Grid.Column="0" Grid.Row="0" Panel.ZIndex="-1" HorizontalAlignment="Center" MinWidth="350"/>
+                <Rectangle Margin="10,80,10,0" Grid.Column="0" Grid.Row="0" Panel.ZIndex="-1" HorizontalAlignment="Center" MinWidth="350"/>
 
                 <StackPanel Grid.Row="2" HorizontalAlignment="Center" MinWidth="350">
                     <Button Margin="20,20,20,0" Grid.Row="3" Content="Back to Default" Height="30" FontSize="18"
                         Command="{Binding onRestoreDefaultSettingsCommand}" Style="{StaticResource InnerButton}"/>
-                    <Button Margin="20" Grid.Row="3" Grid.Column="1" Content="Save Changes in DB" FontSize="18"
+                    <Button Margin="20" Grid.Row="3" Grid.Column="1" Content="Save Changes" FontSize="18"
                         Command="{Binding onSaveSettingsInDBCommand}" Style="{StaticResource InnerButton}"/>
                 </StackPanel>
                 <!--<StackPanel Grid.Row="1" Grid.Column="0" Margin="10">

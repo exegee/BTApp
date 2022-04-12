@@ -5,7 +5,7 @@
     <security>
       <applicationRequestMinimum>
         <defaultAssemblyRequest permissionSetReference="Custom" />
-        <PermissionSet ID="Custom" SameSite="site" Unrestricted="true" class="System.Security.Permissions" version="1"/>
+        <PermissionSet ID="Custom" SameSite="site" class="System.Security.Permissions" version="1" Unrestricted="true" />
       </applicationRequestMinimum>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
         <!-- UAC Manifest Options

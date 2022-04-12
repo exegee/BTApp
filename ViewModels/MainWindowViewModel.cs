@@ -208,6 +208,20 @@ namespace BTApp.ViewModels
             }
         }
 
+        private int _stripesLength { get; set; }
+        public int StripesLength
+        {
+            get
+            {
+                return _stripesLength;
+            }
+            set
+            {
+                _stripesLength = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private ServiceGates _serviceGates { get; set; }
         public ServiceGates ServiceGates
         {
@@ -218,6 +232,20 @@ namespace BTApp.ViewModels
             set
             {
                 _serviceGates = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<ServiceGate> _serviceGatesToDisplay { get; set; }
+        public List<ServiceGate> ServiceGatesToDisplay
+        {
+            get
+            {
+                return _serviceGatesToDisplay;
+            }
+            set
+            {
+                _serviceGatesToDisplay = value;
                 NotifyPropertyChanged();
             }
         }
@@ -301,8 +329,9 @@ namespace BTApp.ViewModels
             onSaveSettingsInDBCommand = new SaveSettingsInDBCommand(this);
             ActivePlcErrors = new List<PlcError>();
             LogedErrors = new List<PlcError>();
-            ServiceGates = new ServiceGates(89067);
-           
+            ServiceGates = new ServiceGates(0);
+            ServiceGatesToDisplay = new List<ServiceGate>();
+            AddGateToDisplay();
         }
 
         /// <summary>
@@ -367,8 +396,11 @@ namespace BTApp.ViewModels
             StripesTotalQty = devices[8].Value;
             StripesWidth = devices[9].Value;
             StripesNumber = devices[10].Value;
-            //ServiceGates.updateState(devices[11].Value);
+            StripesLength = devices[11].Value;
+            //ServiceGates.updateState(devices[12].Value);
             ServiceGates.updateState(13);
+            AddGateToDisplay();
+
         }
 
         private void _dataChange(object sender, EventArgs e)
@@ -590,6 +622,18 @@ namespace BTApp.ViewModels
                 Settings.ServiceUri = setList[0].ServiceUri;
             }
             NotifyPropertyChanged("Settings");
+        }
+
+        private void AddGateToDisplay()
+        {
+            ServiceGatesToDisplay.Clear();
+            foreach (ServiceGate gate in ServiceGates.Gates)
+            {
+                if (gate.Active)
+                {
+                    ServiceGatesToDisplay.Add(gate);
+                }
+            }
         }
 
     }

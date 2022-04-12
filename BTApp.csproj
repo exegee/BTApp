@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -72,6 +72,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CsvHelper, Version=27.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
@@ -163,6 +166,8 @@
     <Compile Include="Commands\WriteDataTestCommand.cs" />
     <Compile Include="Common\FTPClient.cs" />
     <Compile Include="Common\OrderConverter.cs" />
+    <Compile Include="Converters\PLCConnectionStatusToGatesStateErrorDisplay.cs" />
+    <Compile Include="Converters\PLCConnectionStatusToVisibilityConverter.cs" />
     <Compile Include="Converters\MachineStatusToBitmapConverter.cs" />
     <Compile Include="Converters\NumberToStringConverter.cs" />
     <Compile Include="Converters\OperatingModeToStringConverter.cs" />

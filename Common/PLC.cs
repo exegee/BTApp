@@ -65,7 +65,8 @@ namespace BTApp.Common
          new Device{Name="D4514", Size=1, Value=0, OldValue=0, Comment="Total amount of stripes"},
          new Device{Name="D4516", Size=2, Value=0, OldValue=0, Comment="Stripes Width"},
          new Device{Name="D4517", Size=1, Value=0, OldValue=0, Comment="Stripes Number"},
-         new Device{Name="D4518", Size=2, Value=0, OldValue=0, Comment="Service Gates"}
+         new Device{Name="D4517", Size=2, Value=0, OldValue=0, Comment="Stripes length"},
+         new Device{Name="D4519", Size=2, Value=0, OldValue=0, Comment="Service Gates"}
         };
 
         /// <summary>
