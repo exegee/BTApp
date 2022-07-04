@@ -5,16 +5,24 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTApp", "BTApp.csproj", "{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}"
 EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "BTAppInstaller", "..\BTAppInstaller\BTAppInstaller.aiproj", "{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|Any CPU = All|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.All|Any CPU.Build.0 = Release|Any CPU
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.All|Any CPU.ActiveCfg = DefaultBuild
+		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.Debug|Any CPU.ActiveCfg = DefaultBuild
+		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.Release|Any CPU.ActiveCfg = DefaultBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -110,30 +110,30 @@ namespace BTApp.ViewModels
             }
         }
 
-        private float _actualDecoilerPower { get; set; }
-        public float ActualDecoilerPower
+        private float _actualDecoilerLoad { get; set; }
+        public float ActualDecoilerLoad
         {
             get
             {
-                return _actualDecoilerPower;
+                return _actualDecoilerLoad;
             }
             set
             {
-                _actualDecoilerPower = value;
+                _actualDecoilerLoad = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private float _actualRecoilerPower { get; set; }
-        public float ActualRecoilerPower
+        private float _actualRecoilerLoad { get; set; }
+        public float ActualRecoilerLoad
         {
             get
             {
-                return _actualRecoilerPower;
+                return _actualRecoilerLoad;
             }
             set
             {
-                _actualRecoilerPower = value;
+                _actualRecoilerLoad = value;
                 NotifyPropertyChanged();
             }
         }
@@ -329,7 +329,7 @@ namespace BTApp.ViewModels
             onSaveSettingsInDBCommand = new SaveSettingsInDBCommand(this);
             ActivePlcErrors = new List<PlcError>();
             LogedErrors = new List<PlcError>();
-            ServiceGates = new ServiceGates(0);
+            ServiceGates = new ServiceGates(0b1111111111111111);
             ServiceGatesToDisplay = new List<ServiceGate>();
             AddGateToDisplay();
         }
@@ -389,8 +389,8 @@ namespace BTApp.ViewModels
             RecoilingSpeed = devices[1].Value;
             CurrentLengthExecuted = devices[2].Value / 1000f;
             TotalLength = devices[3].Value / 1000f;
-            ActualDecoilerPower = devices[4].Value;
-            ActualRecoilerPower = devices[5].Value;
+            ActualDecoilerLoad = devices[4].Value;
+            ActualRecoilerLoad = devices[5].Value;
             CuttingSpeed = devices[6].Value;
             StripesAlreadyCut = devices[7].Value;
             StripesTotalQty = devices[8].Value;

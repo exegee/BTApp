@@ -12,11 +12,11 @@ namespace BTApp.Models
         [Ignore]
         [SQLite.PrimaryKey, SQLite.AutoIncrement]
         public int PlcErrorId { get; set; }
-        [Index(0)]
+        [Index(1)]
         public string Device { get; set; }
         [Index(2)]
         public string Code { get; set; }
-        [Index(1)]
+        [Index(0)]
         public string Module { get; set; }
         [Index(3)]
         public string Description { get; set; }

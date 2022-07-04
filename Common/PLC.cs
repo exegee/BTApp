@@ -26,7 +26,7 @@ namespace BTApp.Common
         //PLC constants
         private const string PLC_READY_REG = "SM400";
         private const string PLC_MACHINESTATE_REG = "D4500";
-        private const string PLC_LOADORDER_REG = "M4400";
+        //private const string PLC_LOADORDER_REG = "M4400";
         static readonly object _locker = new object();
 
         private volatile ACTETHERLib.ActLCPUTCP _ActLCPUTCP;
@@ -54,19 +54,19 @@ namespace BTApp.Common
         /// </summary>
         public List<Device> Devices = new List<Device>()
         {
-         new Device{Name="D4501", Size=2, Value=0, OldValue=0, Comment="Operating Mode"},
-         new Device{Name="D4503", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},
-         new Device{Name="D4505", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},
-         new Device{Name="D4507", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},
-         new Device{Name="D4509", Size=2, Value=0, OldValue=0, Comment="Actual decoiler speed"},
-         new Device{Name="D4511", Size=2, Value=0, OldValue=0, Comment="Actual recoiler speed"},
-         new Device{Name="D4513", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},
-         new Device{Name="D4515", Size=1, Value=0, OldValue=0, Comment="Already cut stripes"},
-         new Device{Name="D4514", Size=1, Value=0, OldValue=0, Comment="Total amount of stripes"},
+         new Device{Name="D4501", Size=2, Value=0, OldValue=0, Comment="Operating Mode"},//
+         new Device{Name="D4012", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},//
+         new Device{Name="D4000", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},//
+         new Device{Name="D5860", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},//
+         new Device{Name="D2102", Size=2, Value=0, OldValue=0, Comment="Actual decoiler load"},//???predkosc
+         new Device{Name="D802", Size=2, Value=0, OldValue=0, Comment="Actual recoiler load"},//
+         new Device{Name="D4010", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},//
+         new Device{Name="D5962", Size=1, Value=0, OldValue=0, Comment="Already cut sheets"},//
+         new Device{Name="D5966", Size=1, Value=0, OldValue=0, Comment="Total amount of sheets"},//
          new Device{Name="D4516", Size=2, Value=0, OldValue=0, Comment="Stripes Width"},
          new Device{Name="D4517", Size=1, Value=0, OldValue=0, Comment="Stripes Number"},
-         new Device{Name="D4517", Size=2, Value=0, OldValue=0, Comment="Stripes length"},
-         new Device{Name="D4519", Size=2, Value=0, OldValue=0, Comment="Service Gates"}
+         new Device{Name="D5960", Size=2, Value=0, OldValue=0, Comment="Stripes length"},//
+         new Device{Name="D4502", Size=2, Value=0, OldValue=0, Comment="Service Gates"}//
         };
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace BTApp.Common
             //_connectionTimout = Convert.ToInt32(ConfigurationManager.AppSettings["plcConnectionTimout"]);
             //_plcRefreshRate = Convert.ToInt32(ConfigurationManager.AppSettings["plcRefreshRate"]);
             //_plcPassword = ConfigurationManager.AppSettings["plcPassword"];
-            _possiblePlcErrorsList = CsvUploadHelper<PlcError>.GetErrorsFromCSV(Properties.Resources.Evromat2022_MA595_IO_v1_7);
+            _possiblePlcErrorsList = CsvUploadHelper<PlcError>.GetErrorsFromCSV(Properties.Resources.Evromat2022_MA595_Awarie);
             _tMonitor = new Thread(wMonitor);
             _tMonitor.SetApartmentState(ApartmentState.STA);
             _debugMode.ConsoleWriteLine("Connecting to PLC...");
@@ -192,11 +192,11 @@ namespace BTApp.Common
                                 }
                             }
 
-                            if (NewOrderFlag)
-                            {
-                                _ActLCPUTCP.SetDevice(PLC_LOADORDER_REG, 1);
-                                NewOrderFlag = false;
-                            }
+                            //if (NewOrderFlag)
+                            //{
+                            //    _ActLCPUTCP.SetDevice(PLC_LOADORDER_REG, 1);
+                            //    NewOrderFlag = false;
+                            //}
 
                         }
                         catch (Exception e)

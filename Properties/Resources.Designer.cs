@@ -61,31 +61,32 @@ namespace BTApp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Device;Module;Code;Description
-        ///M4500;Main;E00;Przerwany obwód bezpieczeństwa stopów awaryjnych
-        ///M4501;Main;E01;Przerwany obwód bezpieczeństwa bramek zespołu gilotyny
-        ///M4502;Main;E02;Przerwany obwód bezpieczeństwa bramek zespołu rozcinania
-        ///M4503;Main;E03;
-        ///M4504;Main;E04;Przerwany obwód bezpieczeństwa bramek zespołu Z
-        ///M4505;Main;E05;
-        ///M4506;Main;E06;
-        ///M4507;Main;E07;
-        ///M4508;Main;E08;
-        ///M4509;Main;E09;
-        ///M4510;Main;E10;
-        ///M4511;Main;E11;
-        ///M4512;Main;E12;
-        ///M4513;Main;E13;
-        ///M4514;Main;E14;Awaria modułu master s [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Module;Device;Code;Description
+        ///MASTER;M4500;E00;Przerwany obwód bezpieczeństwa stopów awaryjnych
+        ///MASTER;M4501;E01;Przerwany obwód bezpieczeństwa bramek zespołu gilotyny
+        ///MASTER;M4502;E02;Przerwany obwód bezpieczeństwa bramek zespołu rozcinania
+        ///MASTER;M4503;E03;
+        ///MASTER;M4504;E04;Przerwany obwód bezpieczeństwa bramek zespołu Z
+        ///MASTER;M4505;E05;
+        ///MASTER;M4506;E06;
+        ///MASTER;M4507;E07;
+        ///MASTER;M4508;E08;
+        ///MASTER;M4509;E09;
+        ///MASTER;M4510;E10;
+        ///MASTER;M4511;E11;
+        ///MASTER;M4512;E12;
+        ///MASTER;M4513;E13;
+        ///MASTER;M4 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Evromat2022_MA595_IO_v1_7 {
+        internal static string Evromat2022_MA595_Awarie {
             get {
-                return ResourceManager.GetString("Evromat2022_MA595_IO_v1_7", resourceCulture);
+                return ResourceManager.GetString("Evromat2022_MA595_Awarie", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1;Lokalizacja 1
+        ///   Looks up a localized string similar to Number;Opis
+        ///1;Lokalizacja 1
         ///2;Lokalizacja 2
         ///3;Lokalizacja 3
         ///4;Lokalizacja 4
