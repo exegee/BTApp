@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.IO;
 using System.Threading;
 
 namespace BTApp.Common
@@ -367,6 +368,7 @@ namespace BTApp.Common
 
         private void CheckForPlcErrors()
         {
+            Console.WriteLine("looking for errors");
             ActiveErrors.Clear();
             string szDevice = findFirstWordAddress(_possiblePlcErrorsList[0].Device);//find the beggining of a word
             int BufferSize = findBufferSize(szDevice, _possiblePlcErrorsList[_possiblePlcErrorsList.Count-1].Device);
@@ -376,7 +378,6 @@ namespace BTApp.Common
             
             //get data
             status = _ActLCPUTCP.ReadDeviceBlock(szDevice, iSize, out inputData[0]);
-
             //do some calculations
             int offset = 0;
             string firstDevice = _possiblePlcErrorsList[0].Device.Substring(1, _possiblePlcErrorsList[0].Device.Length - 1);
@@ -441,6 +442,9 @@ namespace BTApp.Common
                                 try
                                 {
                                     DatabaseHelper.Insert(tempVal);
+                                    List<PlcError> list = new List<PlcError>();
+                                    //list.Add(tempVal);
+                                    CsvUploadHelper<PlcError>.AddRecordsToCSV(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ErrorLogs.csv"),list);
                                     OnLogedErrorChange();
                                     OnActiveErrorChange();
                                 }catch (Exception ex)

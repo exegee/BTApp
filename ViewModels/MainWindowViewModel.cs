@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -502,8 +503,8 @@ namespace BTApp.ViewModels
 
         private void GetErrorLogs()
         {
-            List<PlcError> errors = DatabaseHelper.Read<PlcError>();
-
+            //List<PlcError> errors = DatabaseHelper.Read<PlcError>();
+            List<PlcError> errors = CsvUploadHelper<PlcError>.GetErrorsFromCSV(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ErrorLogs.csv"));
             //LogedErrors.Clear();
 
             //foreach(PlcError error in errors)
@@ -516,7 +517,8 @@ namespace BTApp.ViewModels
 
         public void ClearErrorlog()
         {
-            DatabaseHelper.DeleteAll<PlcError>();
+            //DatabaseHelper.DeleteAll<PlcError>();
+            CsvUploadHelper<PlcError>.ClearRecords(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ErrorLogs.csv"));
             GetErrorLogs();
         }
 

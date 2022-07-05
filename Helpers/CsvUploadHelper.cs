@@ -46,6 +46,47 @@ namespace BTApp.Helpers
             //}
             return errors;
         }
+
+
+        public static void AddRecordsToCSV(string path, List<T> records)
+        {
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
+
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                // Don't write the header again.
+                HasHeaderRecord = false,
+                Delimiter = ";"
+            };
+            using (var stream = File.Open(path, FileMode.Append))
+            using (var writer = new StreamWriter(stream))
+            using (var csv = new CsvWriter(writer, config))
+            {
+                csv.WriteRecords(records);
+            }
+        }
+
+        public static void ClearRecords(string path)
+        {
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
+
+            List<T> records = new List<T>();
+
+            using (var writer = new StreamWriter(path))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(records);
+            }
+        }
+
+
+
     }
 
 }
