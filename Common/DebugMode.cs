@@ -7,7 +7,7 @@ namespace BTApp.Common
     public class DebugMode
     {
         private bool _debugMode = false;
-        private static string logFile = "C:\\Users\\WKS6\\Desktop\\Log.txt";
+        private static string logFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),"Log.txt");//"C:\\Users\\WKS6\\Desktop\\Log.txt"; 
 
         /// <summary>
         /// Konstruktor

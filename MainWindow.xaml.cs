@@ -20,13 +20,13 @@ namespace BTApp
         {
             try
             {
+                //DebugMode.WriteErrorToLogFile("App initializing...");
                 DataContext = new MainWindowViewModel();
                 InitializeComponent();
-                DebugMode.WriteErrorToLogFile("Main window initialized");
             }
             catch (Exception ex)
             {
-                DebugMode.WriteErrorToLogFile(ex.Message);
+                //DebugMode.WriteErrorToLogFile(ex.Message);
             }
 
         }

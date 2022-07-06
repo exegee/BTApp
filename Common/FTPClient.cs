@@ -53,22 +53,22 @@ namespace BTApp.Common
             _debugMode = new DebugMode();
         }
 
-        public bool updateSettings(Settings settings)
-        {
-            bool result = false;
+        //public bool updateSettings(Settings settings)
+        //{
+        //    bool result = false;
 
-            if (settings != null)
-            {
-                _GOTRecipeExt = settings.GOTRecordExtension;
-                _ipAddress = settings.GOTIPAddress;
-                _port = settings.GOTFTPPort;
-                _recipeFileNameTemplate = settings.GOTRecipeFileNameTemplate;
-                _recordMax = settings.GOTRecordsNum;
-                _ftpPath = string.Concat("ftp://", _ipAddress, ":", _port, "//Project1//recipe//");
-                result = true;
-            }
-            return result;
-        }
+        //    if (settings != null)
+        //    {
+        //        _GOTRecipeExt = settings.GOTRecordExtension;
+        //        _ipAddress = settings.GOTIPAddress;
+        //        _port = settings.GOTFTPPort;
+        //        _recipeFileNameTemplate = settings.GOTRecipeFileNameTemplate;
+        //        _recordMax = settings.GOTRecordsNum;
+        //        _ftpPath = string.Concat("ftp://", _ipAddress, ":", _port, "//Project1//recipe//");
+        //        result = true;
+        //    }
+        //    return result;
+        //}
 
         /// <summary>
         /// Metoda pobiera pliki receptur z GOT
@@ -103,7 +103,6 @@ namespace BTApp.Common
             catch(WebException e)
             {
                 _debugMode.ConsoleWriteLine($"FTP error: {e.Message}");
-                DebugMode.WriteErrorToLogFile(e.Message);
             }
             return files;
         }
@@ -139,7 +138,6 @@ namespace BTApp.Common
                     catch(Exception e)
                     {
                         _debugMode.ConsoleWriteLine("FTP Error: Error deleteing file from GOT.");
-                        DebugMode.WriteErrorToLogFile(e.Message);
                     }
                 }
             }
@@ -169,7 +167,6 @@ namespace BTApp.Common
             catch(WebException e)
             {
                 _debugMode.ConsoleWriteLine($"FTP error: {e.Message}");
-                DebugMode.WriteErrorToLogFile(e.Message);
             }
             return (line.Last() == 'N') ? true : false;
            
@@ -248,7 +245,6 @@ namespace BTApp.Common
             }
             catch(WebException e)
             {
-                DebugMode.WriteErrorToLogFile(e.Message);
                 _debugMode.ConsoleWriteLine($"FTP error: {e.Message}");
                 return false;
             }

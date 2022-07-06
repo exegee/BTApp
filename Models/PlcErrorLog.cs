@@ -1,5 +1,5 @@
-﻿using CsvHelper.Configuration.Attributes;
-using System;
+﻿using System;
+using CsvHelper.Configuration.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BTApp.Models
 {
-    public class PlcError
+    public class PlcErrorLog
     {
         [Index(1)]
         public string Device { get; set; }
@@ -21,7 +21,7 @@ namespace BTApp.Models
         public bool PreviousState { get; set; }
         [Ignore]
         public bool CurrentState { get; set; }
-        [Ignore]
+        [Index(4)]
         public DateTime? OccurenceTime { get; set; }
     }
 }

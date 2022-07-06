@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTApp", "BTApp.csproj", "{C
 EndProject
 Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "BTAppInstaller", "..\BTAppInstaller\BTAppInstaller.aiproj", "{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup2", "..\Setup2\Setup2.vdproj", "{EAB07F86-6D88-4A81-AB12-FCA97DFA98FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -21,8 +23,14 @@ Global
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6ACF1C4-DB02-45CA-9904-7E836C72DC1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.All|Any CPU.ActiveCfg = DefaultBuild
+		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.All|Any CPU.Build.0 = DefaultBuild
 		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.Debug|Any CPU.ActiveCfg = DefaultBuild
+		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.Debug|Any CPU.Build.0 = DefaultBuild
 		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.Release|Any CPU.ActiveCfg = DefaultBuild
+		{9294E41A-DCEF-47EB-9FA0-7D353B4B8A76}.Release|Any CPU.Build.0 = DefaultBuild
+		{EAB07F86-6D88-4A81-AB12-FCA97DFA98FD}.All|Any CPU.ActiveCfg = Debug
+		{EAB07F86-6D88-4A81-AB12-FCA97DFA98FD}.Debug|Any CPU.ActiveCfg = Debug
+		{EAB07F86-6D88-4A81-AB12-FCA97DFA98FD}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -55,7 +55,7 @@ namespace BTApp.Common
         /// </summary>
         public List<Device> Devices = new List<Device>()
         {
-         new Device{Name="D4501", Size=2, Value=0, OldValue=0, Comment="Operating Mode"},//
+         new Device{Name="D4501", Size=1, Value=0, OldValue=0, Comment="Operating Mode"},//
          new Device{Name="D4012", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},//
          new Device{Name="D4000", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},//
          new Device{Name="D5860", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},//
@@ -64,7 +64,7 @@ namespace BTApp.Common
          new Device{Name="D4010", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},//
          new Device{Name="D5962", Size=1, Value=0, OldValue=0, Comment="Already cut sheets"},//
          new Device{Name="D5966", Size=1, Value=0, OldValue=0, Comment="Total amount of sheets"},//
-         new Device{Name="D4516", Size=2, Value=0, OldValue=0, Comment="Stripes Width"},
+         new Device{Name="D4516", Size=1, Value=0, OldValue=0, Comment="Stripes Width"},
          new Device{Name="D4517", Size=1, Value=0, OldValue=0, Comment="Stripes Number"},
          new Device{Name="D5960", Size=2, Value=0, OldValue=0, Comment="Stripes length"},//
          new Device{Name="D4502", Size=2, Value=0, OldValue=0, Comment="Service Gates"}//
@@ -132,7 +132,7 @@ namespace BTApp.Common
                 lock (_locker)
                 {
                     _ActLCPUTCP = NewConnection();
-                    _ActLCPUTCP.Open();
+                    status = _ActLCPUTCP.Open();
 
                     // Sprawdz polaczenie z PLC
                     try
@@ -147,8 +147,7 @@ namespace BTApp.Common
                     }
                     catch (Exception e)
                     {
-                        _debugMode.ConsoleWriteLine(e.Message);
-                        DebugMode.WriteErrorToLogFile("PLC connection failed: " + e.Message);
+                        _debugMode.ConsoleWriteLine("PLC connection failed: " + e.Message);
                         _ActLCPUTCP.Close();
                     }
                     // Jeśli połączenie aktywne odczytaj pozostałe dane
@@ -204,7 +203,7 @@ namespace BTApp.Common
                         {
                             _debugMode.ConsoleWriteLine(e.Message);
                             _ActLCPUTCP.Close();
-                            DebugMode.WriteErrorToLogFile("PLC data read failed" + e.Message);
+                            _debugMode.ConsoleWriteLine("PLC data read failed" + e.Message);
                         }
                     }
                     else
@@ -420,13 +419,13 @@ namespace BTApp.Common
                         {
                             tempVal.PreviousState = tempVal.CurrentState;
                             tempVal.CurrentState = true;
-                            tempVal.OccurenceTime = DateTime.Now;
                             Console.WriteLine($"Error occured on adress: {tempVal.Device}");
                             ActiveErrors.Add(tempVal);
                             if (!tempVal.PreviousState)
                             {
-                                OnActiveErrorChange();
+                                tempVal.OccurenceTime = DateTime.Now;//update date only when change from 0 to 1
                             }
+                            OnActiveErrorChange();
                         }
                         else
                         {
@@ -441,15 +440,23 @@ namespace BTApp.Common
                                 tempVal.OccurenceTime = DateTime.Now;
                                 try
                                 {
-                                    DatabaseHelper.Insert(tempVal);
-                                    List<PlcError> list = new List<PlcError>();
-                                    //list.Add(tempVal);
-                                    CsvUploadHelper<PlcError>.AddRecordsToCSV(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ErrorLogs.csv"),list);
+                                    //DatabaseHelper.Insert(tempVal);
+                                    List<PlcErrorLog> list = new List<PlcErrorLog>();
+                                    PlcErrorLog newItem = new PlcErrorLog();
+                                    newItem.Device = tempVal.Device;
+                                    newItem.Code = tempVal.Code;
+                                    newItem.Module = tempVal.Module;
+                                    newItem.Description = tempVal.Description;
+                                    newItem.PreviousState = tempVal.PreviousState;
+                                    newItem.CurrentState = tempVal.CurrentState;
+                                    newItem.OccurenceTime = tempVal.OccurenceTime;
+                                    list.Add(newItem);
+                                    CsvUploadHelper<PlcErrorLog>.AddRecordsToCSV(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ErrorLogs.csv"),list);
                                     OnLogedErrorChange();
                                     OnActiveErrorChange();
                                 }catch (Exception ex)
                                 {
-                                    DebugMode.WriteErrorToLogFile("PLC error log failed: " + ex.Message);
+                                    _debugMode.ConsoleWriteLine("PLC error log failed: " + ex.Message);
                                 }
                             }
 

@@ -48,19 +48,61 @@ namespace BTApp.Helpers
         }
 
 
+        public static List<T> GetDataFromCSV(string path)
+        {
+
+            List<T> data = new List<T>();
+
+            //if (Directory.Exists(filePath))
+            //{
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                //MissingFieldFound = null,
+                Delimiter = ";"
+            };
+
+            if (File.Exists(path))
+            {
+                using (var reader = new StreamReader(path))
+                using (var csv = new CsvReader(reader, config))
+                {
+                    var records = csv.GetRecords<T>();
+                    data = records.ToList();
+                }
+            }
+
+            return data;
+        }
+
+
         public static void AddRecordsToCSV(string path, List<T> records)
         {
+
+            CsvConfiguration config;
+
             if (!File.Exists(path))
             {
                 File.Create(path).Close();
+
+                config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    // Don't write the header again.
+                    HasHeaderRecord = true,
+                    Delimiter = ";"
+                };
+            }
+            else
+            {
+                config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    // Don't write the header again.
+                    HasHeaderRecord = false,
+                    Delimiter = ";"
+                };
             }
 
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-                // Don't write the header again.
-                HasHeaderRecord = false,
-                Delimiter = ";"
-            };
+
             using (var stream = File.Open(path, FileMode.Append))
             using (var writer = new StreamWriter(stream))
             using (var csv = new CsvWriter(writer, config))
@@ -76,6 +118,13 @@ namespace BTApp.Helpers
                 File.Create(path).Close();
             }
 
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                // Don't write the header again.
+                HasHeaderRecord = false,
+                Delimiter = ";"
+            };
+
             List<T> records = new List<T>();
 
             using (var writer = new StreamWriter(path))
@@ -85,7 +134,29 @@ namespace BTApp.Helpers
             }
         }
 
+        public static void SaveSettingsInCSV(string path, T record)
+        {
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
 
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                // Don't write the header again.
+                HasHeaderRecord = true,
+                Delimiter = ";"
+            };
+
+            List<T> records = new List<T>();
+            records.Add(record);
+
+            using (var writer = new StreamWriter(path))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(records);
+            }
+        }
 
     }
 

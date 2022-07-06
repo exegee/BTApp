@@ -46,7 +46,6 @@ namespace BTApp.Common
             catch (Exception e)
             {
                 _debugMode.ConsoleWriteLine(e.Message);
-                DebugMode.WriteErrorToLogFile(e.Message);
             }
             // ----------------------------------
 
@@ -59,19 +58,19 @@ namespace BTApp.Common
             });
         }
 
-        public bool updateSettings(Settings settings)
-        {
-            bool result = false;
+        //public bool updateSettings(Settings settings)
+        //{
+        //    bool result = false;
 
-            if (settings != null)
-            {
-                _scanDirectoryPath = settings.ImportPath;
-                _exportDirectoryPath = settings.ExportPath;
-                _importFileName = settings.FileName;
-                result = true;
-            }
-            return result;
-        }
+        //    if (settings != null)
+        //    {
+        //        _scanDirectoryPath = settings.ImportPath;
+        //        _exportDirectoryPath = settings.ExportPath;
+        //        _importFileName = settings.FileName;
+        //        result = true;
+        //    }
+        //    return result;
+        //}
         /// <summary>
         /// Metoda uruchamia wątek skowania folderu
         /// </summary>
@@ -126,7 +125,6 @@ namespace BTApp.Common
                 catch (Exception e)
                 {
                     _debugMode.ConsoleWriteLine(e.Message);
-                    DebugMode.WriteErrorToLogFile(e.Message);
                 }
                 Thread.Sleep(1000);
             }

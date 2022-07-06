@@ -13,7 +13,8 @@ namespace BTApp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch (value)
+            var i = (PLCOperatingMode)value;
+            switch (i)
             {
                 case PLCOperatingMode.Recoiling:
                     return "Recoiling";

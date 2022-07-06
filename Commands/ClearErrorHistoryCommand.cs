@@ -28,7 +28,7 @@ namespace BTApp.Commands
         {
             if (parameter != null)
             {
-                List<PlcError> temp = parameter as List<PlcError>;
+                List<PlcErrorLog> temp = parameter as List<PlcErrorLog>;
                 if(temp.Count > 0)
                 {
                     return true;

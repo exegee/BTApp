@@ -111,5 +111,15 @@ namespace BTApp.Properties {
                 return ResourceManager.GetString("Lista_Bramek", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
     }
 }

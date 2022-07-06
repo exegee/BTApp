@@ -12,6 +12,7 @@ using System.Configuration;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Linq;
 
 namespace BTApp.ViewModels
 {
@@ -223,33 +224,33 @@ namespace BTApp.ViewModels
             }
         }
 
-        private ServiceGates _serviceGates { get; set; }
-        public ServiceGates ServiceGates
-        {
-            get
-            {
-                return _serviceGates;
-            }
-            set
-            {
-                _serviceGates = value;
-                NotifyPropertyChanged();
-            }
-        }
+        //private ServiceGates _serviceGates { get; set; }
+        //public ServiceGates ServiceGates
+        //{
+        //    get
+        //    {
+        //        return _serviceGates;
+        //    }
+        //    set
+        //    {
+        //        _serviceGates = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
 
-        private List<ServiceGate> _serviceGatesToDisplay { get; set; }
-        public List<ServiceGate> ServiceGatesToDisplay
-        {
-            get
-            {
-                return _serviceGatesToDisplay;
-            }
-            set
-            {
-                _serviceGatesToDisplay = value;
-                NotifyPropertyChanged();
-            }
-        }
+        //private List<ServiceGate> _serviceGatesToDisplay { get; set; }
+        //public List<ServiceGate> ServiceGatesToDisplay
+        //{
+        //    get
+        //    {
+        //        return _serviceGatesToDisplay;
+        //    }
+        //    set
+        //    {
+        //        _serviceGatesToDisplay = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
 
         private int inputPLCData;
 
@@ -303,12 +304,15 @@ namespace BTApp.ViewModels
         public ObservableCollection<Device> devices = new ObservableCollection<Device>();
         public ObservableCollection<Order> order;
         public List<PlcError> ActivePlcErrors { get; set; }
-        public List<PlcError> LogedErrors { get; set; }
+        public List<PlcErrorLog> LogedErrors { get; set; }
+
+        public List<ServiceGate> ServiceGates { get; set; }
+        public List<ServiceGate> ServiceGatesToDisplay { get; set; }
 
         private PLC _plc;
-        private FolderScan _folderScan;
+        //private FolderScan _folderScan;
         private OrderConverter _orderConverter;
-        private FTPClient _fTPClient;
+        //private FTPClient _fTPClient;
         private List<Order> _lastOrder = new List<Order>();
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -329,8 +333,8 @@ namespace BTApp.ViewModels
             onRestoreDefaultSettingsCommand = new RestoreDefaultSettingsCommand(this);
             onSaveSettingsInDBCommand = new SaveSettingsInDBCommand(this);
             ActivePlcErrors = new List<PlcError>();
-            LogedErrors = new List<PlcError>();
-            ServiceGates = new ServiceGates(0b1111111111111111);
+            LogedErrors = new List<PlcErrorLog>();
+            ServiceGates = CsvUploadHelper<ServiceGate>.GetErrorsFromCSV(Properties.Resources.Lista_Bramek);
             ServiceGatesToDisplay = new List<ServiceGate>();
             AddGateToDisplay();
         }
@@ -341,7 +345,7 @@ namespace BTApp.ViewModels
         void OnWindowUnloaded()
         {
             _plc.End();
-            _folderScan.End();
+            //_folderScan.End();
             Application.Current.Shutdown();
         }
 
@@ -353,26 +357,27 @@ namespace BTApp.ViewModels
             try
             {
                 SeedSettingsData();
+               // _folderScan = new FolderScan(Settings.ImportPath, Settings.ExportPath, Settings.FileName);
+                _orderConverter = new OrderConverter();
+                //_folderScan.fileDetected += _folderScan_fileDetected;
+                _orderConverter.OrderProcessingFinished += _orderConverter_OrderProcessingFinished;
+                //_folderScan.Begin();
+                //_fTPClient = new FTPClient(Settings.GOTRecordExtension, Settings.GOTIPAddress, Settings.GOTFTPPort, Settings.GOTRecipeFileNameTemplate, Settings.GOTRecordsNum);
+                _plc = new PLC(Settings.PlcIPAddress, Settings.PlcPassword, Settings.PlcConnectionTimeout, Settings.PlcRefreshRate);
+                _plc.Begin();
+                _plc.PLCStatusChange += _plc_PLCStatusChange;
+                _plc.MachineStatusChange += _plc_MachineStatusChange;
+                _plc.MonitorValueChange += _plc_MonitorValueChange;
+                _plc.DataChange += _dataChange;
+                _plc.ActiveErrorChange += _plc_ActiveErrorChange;
+                _plc.LogedErrorChange += _plc_LogedErrorChange;
+                GetErrorLogs();
             }
             catch (Exception ex)
             {
-                DebugMode.WriteErrorToLogFile("Seeding data error: " + ex.Message);
+                DebugMode.WriteErrorToLogFile("On window loaded error: " + ex.Message);
             }
-            _folderScan = new FolderScan(Settings.ImportPath,Settings.ExportPath,Settings.FileName);
-            _orderConverter = new OrderConverter();
-            _folderScan.fileDetected += _folderScan_fileDetected;
-            _orderConverter.OrderProcessingFinished += _orderConverter_OrderProcessingFinished;
-            _folderScan.Begin();
-            _fTPClient = new FTPClient(Settings.GOTRecordExtension,Settings.GOTIPAddress,Settings.GOTFTPPort,Settings.GOTRecipeFileNameTemplate,Settings.GOTRecordsNum);
-            _plc = new PLC(Settings.PlcIPAddress, Settings.PlcPassword, Settings.PlcConnectionTimeout, Settings.PlcRefreshRate);
-            _plc.Begin();
-            _plc.PLCStatusChange += _plc_PLCStatusChange;
-            _plc.MachineStatusChange += _plc_MachineStatusChange;
-            _plc.MonitorValueChange += _plc_MonitorValueChange;
-            _plc.DataChange += _dataChange;
-            _plc.ActiveErrorChange += _plc_ActiveErrorChange;
-            _plc.LogedErrorChange += _plc_LogedErrorChange;
-             GetErrorLogs();
+
 
         }
 
@@ -398,8 +403,9 @@ namespace BTApp.ViewModels
             StripesWidth = devices[9].Value;
             StripesNumber = devices[10].Value;
             StripesLength = devices[11].Value;
-            //ServiceGates.updateState(devices[12].Value);
-            ServiceGates.updateState(13);
+            updateGatesStates(devices[12].Value);
+            NotifyPropertyChanged("ServiceGates");
+            //ServiceGates.updateState(13);
             AddGateToDisplay();
 
         }
@@ -475,7 +481,7 @@ namespace BTApp.ViewModels
         private void _orderConverter_OrderProcessingFinished(object sender, OrderProcessingEventArgs e)
         {
             _lastOrder = e.orders;
-            _fTPClient.TransferOrdersAsRecipes(_lastOrder);
+            //_fTPClient.TransferOrdersAsRecipes(_lastOrder);
             _plc.NewOrderFlag = true;
             //_fTPClient.GetFileList(".CSV");
             //var recipe = new Recipe(1, 3, "Zlecenie", "ZLECENIE TEST", 20, "2000/01/01 03:18:54", 4563, 235, 12, 35);
@@ -504,14 +510,14 @@ namespace BTApp.ViewModels
         private void GetErrorLogs()
         {
             //List<PlcError> errors = DatabaseHelper.Read<PlcError>();
-            List<PlcError> errors = CsvUploadHelper<PlcError>.GetErrorsFromCSV(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ErrorLogs.csv"));
+            List<PlcErrorLog> errors = CsvUploadHelper<PlcErrorLog>.GetDataFromCSV(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ErrorLogs.csv"));
             //LogedErrors.Clear();
 
             //foreach(PlcError error in errors)
             //{
             //    LogedErrors.Add(error);
             //}
-            LogedErrors = new List<PlcError>(errors);
+            LogedErrors = new List<PlcErrorLog>(errors);
             NotifyPropertyChanged("LogedErrors");
         }
 
@@ -524,25 +530,25 @@ namespace BTApp.ViewModels
 
         public void ChangeFilePath(string type, string path)
         {
-            switch (type)
-            {
-                case "Import":
-                    if (!String.IsNullOrEmpty(path))
-                    {
-                        Settings.ImportPath = path;
-                        NotifyPropertyChanged("Settings");
-                    }
-                    break;
-                case "Export":
-                    if (!String.IsNullOrEmpty(path))
-                    {
-                        Settings.ExportPath = path;
-                        NotifyPropertyChanged("Settings");
-                    }
-                    break;
-                default:
-                    break;
-            }
+            //switch (type)
+            //{
+            //    case "Import":
+            //        if (!String.IsNullOrEmpty(path))
+            //        {
+            //            Settings.ImportPath = path;
+            //            NotifyPropertyChanged("Settings");
+            //        }
+            //        break;
+            //    case "Export":
+            //        if (!String.IsNullOrEmpty(path))
+            //        {
+            //            Settings.ExportPath = path;
+            //            NotifyPropertyChanged("Settings");
+            //        }
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
 
         public void RestoreDefaultSettings()
@@ -553,75 +559,81 @@ namespace BTApp.ViewModels
                 ReturnToDefault();
                 _plc.updateSettings(Settings);
                 NotifyPropertyChanged("Settings");
-                DatabaseHelper.DeleteAll<Settings>();
+                //DatabaseHelper.DeleteAll<Settings>();
+                CsvUploadHelper<Settings>.SaveSettingsInCSV(
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Settings.csv"), new Settings());
             }
         }
 
         public void SaveSettingsInDB()
         {
             _plc.updateSettings(Settings);
-            _fTPClient.updateSettings(Settings);
-            _folderScan.updateSettings(Settings);
-
-            if (Settings.SettingsId != null)
-            {
-                DatabaseHelper.Update(Settings);
-            }
-            else
-            {
-                DatabaseHelper.Insert(Settings);
-            }
+            //_fTPClient.updateSettings(Settings);
+            //_folderScan.updateSettings(Settings);
+            //TODO save new settings
+            //if (Settings.SettingsId != null)
+            //{
+            //    DatabaseHelper.Update(Settings);
+            //}
+            //else
+            //{
+            //    DatabaseHelper.Insert(Settings);
+            //}
+            CsvUploadHelper<Settings>.SaveSettingsInCSV(
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Settings.csv"),Settings);
             MessageBox.Show("Settings saved", "Info", MessageBoxButton.OK);
 
         }
 
         private void ReturnToDefault()
         {
-                Settings.ImportPath = ConfigurationManager.AppSettings[nameof(Settings.ImportPath)];
-                Settings.ExportPath = ConfigurationManager.AppSettings[nameof(Settings.ExportPath)];
-                Settings.FileName = ConfigurationManager.AppSettings[nameof(Settings.FileName)];
+                //Settings.ImportPath = ConfigurationManager.AppSettings[nameof(Settings.ImportPath)];
+                //Settings.ExportPath = ConfigurationManager.AppSettings[nameof(Settings.ExportPath)];
+                //Settings.FileName = ConfigurationManager.AppSettings[nameof(Settings.FileName)];
                 Settings.PlcIPAddress = ConfigurationManager.AppSettings[nameof(Settings.PlcIPAddress)];
                 Settings.PlcPassword = ConfigurationManager.AppSettings[nameof(Settings.PlcPassword)];
                 Settings.PlcConnectionTimeout = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.PlcConnectionTimeout)]);
                 Settings.PlcRefreshRate = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.PlcRefreshRate)]);
                 Settings.Debug = Convert.ToBoolean(ConfigurationManager.AppSettings[nameof(Settings.Debug)]);
-                Settings.MoveFileRetryTime = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.MoveFileRetryTime)]);
-                Settings.GOTRecordsNum = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.GOTRecordsNum)]);
-                Settings.GOTRecipeName = ConfigurationManager.AppSettings[nameof(Settings.GOTRecipeName)];
-                Settings.GOTRecipeID = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.GOTRecipeID)]);
-                Settings.GOTRecordExtension = ConfigurationManager.AppSettings[nameof(Settings.GOTRecordExtension)];
-                Settings.GOTIPAddress = ConfigurationManager.AppSettings[nameof(Settings.GOTIPAddress)];
-                Settings.GOTFTPPort = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.GOTFTPPort)]);
-                Settings.GOTRecipeFileNameTemplate = ConfigurationManager.AppSettings[nameof(Settings.GOTRecipeFileNameTemplate)];
-                Settings.ServiceUri = ConfigurationManager.AppSettings[nameof(Settings.ServiceUri)];
+                //Settings.MoveFileRetryTime = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.MoveFileRetryTime)]);
+                //Settings.GOTRecordsNum = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.GOTRecordsNum)]);
+                //Settings.GOTRecipeName = ConfigurationManager.AppSettings[nameof(Settings.GOTRecipeName)];
+                //Settings.GOTRecipeID = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.GOTRecipeID)]);
+                //Settings.GOTRecordExtension = ConfigurationManager.AppSettings[nameof(Settings.GOTRecordExtension)];
+                //Settings.GOTIPAddress = ConfigurationManager.AppSettings[nameof(Settings.GOTIPAddress)];
+                //Settings.GOTFTPPort = Convert.ToInt32(ConfigurationManager.AppSettings[nameof(Settings.GOTFTPPort)]);
+                //Settings.GOTRecipeFileNameTemplate = ConfigurationManager.AppSettings[nameof(Settings.GOTRecipeFileNameTemplate)];
+                //Settings.ServiceUri = ConfigurationManager.AppSettings[nameof(Settings.ServiceUri)];
         }
         private void SeedSettingsData()
         {
-            List<Settings> setList = DatabaseHelper.Read<Settings>();
+            List<Settings> setList = CsvUploadHelper<Settings>.GetDataFromCSV(
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Settings.csv"));//new List<Settings>();//TODO change for .csv
+            ReturnToDefault();
             if (setList.Count == 0)
             {
                 ReturnToDefault();
             }
             else
             {
-                Settings.SettingsId = setList[0].SettingsId;
-                Settings.ImportPath = setList[0].ImportPath;
-                Settings.ExportPath = setList[0].ExportPath;
-                Settings.FileName = setList[0].FileName;
+                //Settings.SettingsId = setList[0].SettingsId;
+                //Settings.ImportPath = setList[0].ImportPath;
+                //Settings.ExportPath = setList[0].ExportPath;
+                //Settings.FileName = setList[0].FileName;
                 Settings.PlcIPAddress = setList[0].PlcIPAddress;
                 Settings.PlcPassword = setList[0].PlcPassword;
                 Settings.PlcConnectionTimeout = setList[0].PlcConnectionTimeout;
                 Settings.PlcRefreshRate = setList[0].PlcRefreshRate;
-                Settings.Debug = setList[0].Debug;
-                Settings.MoveFileRetryTime = setList[0].MoveFileRetryTime;
-                Settings.GOTRecordsNum = setList[0].GOTRecordsNum;
-                Settings.GOTRecipeName = setList[0].GOTRecipeName;
-                Settings.GOTRecipeID = setList[0].GOTRecipeID;
-                Settings.GOTRecordExtension = setList[0].GOTRecordExtension;
-                Settings.GOTIPAddress = setList[0].GOTIPAddress;
-                Settings.GOTFTPPort = setList[0].GOTFTPPort;
-                Settings.GOTRecipeFileNameTemplate = setList[0].GOTRecipeFileNameTemplate;
-                Settings.ServiceUri = setList[0].ServiceUri;
+                Settings.Debug = Convert.ToBoolean(ConfigurationManager.AppSettings[nameof(Settings.Debug)]);
+                //Settings.MoveFileRetryTime = setList[0].MoveFileRetryTime;
+                //Settings.GOTRecordsNum = setList[0].GOTRecordsNum;
+                //Settings.GOTRecipeName = setList[0].GOTRecipeName;
+                //Settings.GOTRecipeID = setList[0].GOTRecipeID;
+                //Settings.GOTRecordExtension = setList[0].GOTRecordExtension;
+                //Settings.GOTIPAddress = setList[0].GOTIPAddress;
+                //Settings.GOTFTPPort = setList[0].GOTFTPPort;
+                //Settings.GOTRecipeFileNameTemplate = setList[0].GOTRecipeFileNameTemplate;
+                //Settings.ServiceUri = setList[0].ServiceUri;
             }
             NotifyPropertyChanged("Settings");
         }
@@ -629,12 +641,35 @@ namespace BTApp.ViewModels
         private void AddGateToDisplay()
         {
             ServiceGatesToDisplay.Clear();
-            foreach (ServiceGate gate in ServiceGates.Gates)
+            List<ServiceGate> gateList = new List<ServiceGate>();
+            foreach (ServiceGate gate in ServiceGates)
             {
+
                 if (gate.Active)
                 {
-                    ServiceGatesToDisplay.Add(gate);
+                    gateList.Add(gate);
                 }
+            }
+            ServiceGatesToDisplay = new List<ServiceGate>(gateList);
+            NotifyPropertyChanged("ServiceGatesToDisplay");
+
+        }
+
+        public void updateGatesStates(int PLCRawData)
+        {
+            restoreDataFromDW(PLCRawData);
+        }
+
+        private void restoreDataFromDW(int data)
+        {
+            int mask = 0;
+
+            for (int i = 0; i < 18; i++)
+            {
+                ServiceGate gate = ServiceGates.Where(g => g.Number == i + 1).FirstOrDefault();
+                mask = (int)Math.Pow(2, i);
+                gate.Active = (data & mask) != 0;
+                NotifyPropertyChanged($"ServiceGates[{i}].Active");
             }
         }
 

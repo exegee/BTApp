@@ -77,7 +77,7 @@
             <Setter Property="Fill" Value="#C34444"/>
             <Setter Property="Opacity" Value="0.0"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ServiceGates.Gates[0].Active}" Value="True">
+                <DataTrigger Binding="{Binding ServiceGates[0].Active}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -413,14 +413,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[0].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[0].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard0">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[0].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard0"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -438,14 +443,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[1].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[1].Active}" Value="True" >
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard1">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[1].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard1"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -463,14 +473,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[2].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[2].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard Name="StoryBoard2">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[2].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard2"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -488,14 +503,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[3].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[3].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard Name="StoryBoard3">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[3].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard3"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -513,14 +533,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[4].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[4].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard Name="StoryBoard4">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[4].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard4"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -538,14 +563,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[5].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[5].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard5">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[5].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard5"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -563,14 +593,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[6].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[6].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard6">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[6].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard6"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -588,14 +623,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[7].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[7].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard7">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[7].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard7"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -613,14 +653,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[8].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[8].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard8">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[8].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard8"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -638,14 +683,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[9].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[9].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard9">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[9].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard9"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -663,14 +713,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[10].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[10].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard10">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[10].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard10"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -688,14 +743,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[11].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[11].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard Name="StoryBoard11">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[11].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard11"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -713,14 +773,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[12].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[12].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard Name="StoryBoard12">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[12].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard12"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -738,14 +803,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[13].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[13].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard13">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[13].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard13"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -763,14 +833,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[14].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[14].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard14">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[14].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard14"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -788,14 +863,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[15].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[15].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard15">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[15].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard15"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -813,14 +893,19 @@
                                 <Setter Property="Opacity" Value="0.0"/>
                             </Style.Setters>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ServiceGates.Gates[16].Active}" Value="True">
+                                <DataTrigger Binding="{Binding ServiceGates[16].Active}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard x:Name="StoryBoard16">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:1"
                                                  AutoReverse="True" RepeatBehavior="Forever"/>
                                             </Storyboard>
                                         </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ServiceGates[16].Active}" Value="False">
+                                    <DataTrigger.EnterActions >
+                                        <RemoveStoryboard BeginStoryboardName="StoryBoard16"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
