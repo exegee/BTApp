@@ -392,8 +392,8 @@ namespace BTApp.ViewModels
             devices = new ObservableCollection<Device>(plc.Devices);
             //TODO add values scaling
             OperatingMode = devices[0].Value;
-            RecoilingSpeed = devices[1].Value;
-            CurrentLengthExecuted = devices[3].Value / 1000f;
+            RecoilingSpeed = convertBinaryToFloat(devices[1].Value);
+            CurrentLengthExecuted = convertBinaryToFloat(devices[3].Value) / 1000f;
             TotalLength = devices[4].Value/1000;
             //ActualDecoilerLoad = devices[4].Value;
             ActualRecoilerLoad = devices[5].Value;
@@ -408,6 +408,19 @@ namespace BTApp.ViewModels
             //ServiceGates.updateState(13);
             AddGateToDisplay();
 
+        }
+
+        unsafe private float convertBinaryToFloat(int input)
+        {
+            float output = 0;
+            byte* ptrOut = (byte *)&output;
+            byte* ptrIn = (byte *)&input;
+            for(int i = 0; i < 4; i++)
+            {
+                *ptrOut++ = *ptrIn++;
+            }
+
+            return output;
         }
 
         private void _dataChange(object sender, EventArgs e)
