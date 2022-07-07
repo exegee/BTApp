@@ -55,19 +55,33 @@ namespace BTApp.Common
         /// </summary>
         public List<Device> Devices = new List<Device>()
         {
-         new Device{Name="D4501", Size=1, Value=0, OldValue=0, Comment="Operating Mode"},//
-         new Device{Name="D4012", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},//
-         new Device{Name="D4000", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},//
-         new Device{Name="D5860", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},//
-         new Device{Name="D2102", Size=2, Value=0, OldValue=0, Comment="Actual decoiler load"},//???predkosc
-         new Device{Name="D802", Size=2, Value=0, OldValue=0, Comment="Actual recoiler load"},//
-         new Device{Name="D4010", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},//
-         new Device{Name="D5962", Size=1, Value=0, OldValue=0, Comment="Already cut sheets"},//
-         new Device{Name="D5966", Size=1, Value=0, OldValue=0, Comment="Total amount of sheets"},//
-         new Device{Name="D4516", Size=1, Value=0, OldValue=0, Comment="Stripes Width"},
-         new Device{Name="D4517", Size=1, Value=0, OldValue=0, Comment="Stripes Number"},
-         new Device{Name="D5960", Size=2, Value=0, OldValue=0, Comment="Stripes length"},//
-         new Device{Name="D4502", Size=2, Value=0, OldValue=0, Comment="Service Gates"}//
+         new Device{Name="D4501", Size=1, Value=0, OldValue=0, Comment="Operating Mode"},//ok
+         new Device{Name="D4012", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},//ok
+         new Device{Name="D4502", Size=2, Value=0, OldValue=0, Comment="Service Gates"},//ok
+         new Device{Name="D4000", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},//ok
+         new Device{Name="D5860", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},//ok
+         //new Device{Name="D2102", Size=2, Value=0, OldValue=0, Comment="Actual decoiler load"},//no data
+         new Device{Name="D802", Size=1, Value=0, OldValue=0, Comment="Actual recoiler load"},//ok
+         new Device{Name="D4010", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},//ok
+         new Device{Name="D5962", Size=1, Value=0, OldValue=0, Comment="Already cut"},//ok
+         new Device{Name="D5966", Size=1, Value=0, OldValue=0, Comment="Remaining sheets to cut"},//ok
+         new Device{Name="D4302", Size=1, Value=0, OldValue=0, Comment="Number of knifes"},//ok
+         new Device{Name="D5960", Size=2, Value=0, OldValue=0, Comment="Stripes length"},//ok       
+         new Device{Name="D13000", Size=2, Value=0, OldValue=0, Comment="Stripe 1 Width"},
+         new Device{Name="D13002", Size=2, Value=0, OldValue=0, Comment="Stripe 2 Width"},
+         new Device{Name="D13004", Size=2, Value=0, OldValue=0, Comment="Stripe 3 Width"},
+         new Device{Name="D13006", Size=2, Value=0, OldValue=0, Comment="Stripe 4 Width"},
+         new Device{Name="D13008", Size=2, Value=0, OldValue=0, Comment="Stripe 5 Width"},
+         new Device{Name="D13010", Size=2, Value=0, OldValue=0, Comment="Stripe 6 Width"},
+         new Device{Name="D13012", Size=2, Value=0, OldValue=0, Comment="Stripe 7 Width"},
+         new Device{Name="D13014", Size=2, Value=0, OldValue=0, Comment="Stripe 8 Width"},
+         new Device{Name="D13016", Size=2, Value=0, OldValue=0, Comment="Stripe 9 Width"},
+         new Device{Name="D13018", Size=2, Value=0, OldValue=0, Comment="Stripe 10 Width"},
+         new Device{Name="D13020", Size=2, Value=0, OldValue=0, Comment="Stripe 11 Width"},
+         new Device{Name="D13022", Size=2, Value=0, OldValue=0, Comment="Stripe 12 Width"},
+         new Device{Name="D13024", Size=2, Value=0, OldValue=0, Comment="Stripe 13 Width"},
+         new Device{Name="D13026", Size=2, Value=0, OldValue=0, Comment="Stripe 14 Width"},
+         new Device{Name="D13028", Size=2, Value=0, OldValue=0, Comment="Stripe 15 Width"},
         };
 
         /// <summary>
@@ -82,7 +96,7 @@ namespace BTApp.Common
             //_connectionTimout = Convert.ToInt32(ConfigurationManager.AppSettings["plcConnectionTimout"]);
             //_plcRefreshRate = Convert.ToInt32(ConfigurationManager.AppSettings["plcRefreshRate"]);
             //_plcPassword = ConfigurationManager.AppSettings["plcPassword"];
-            _possiblePlcErrorsList = CsvUploadHelper<PlcError>.GetErrorsFromCSV(Properties.Resources.Evromat2022_MA595_Awarie);
+            _possiblePlcErrorsList = CsvUploadHelper<PlcError>.GetErrorsFromCSV(Properties.Resources.Evromat2022_MA595_2_7Awarie);
             _tMonitor = new Thread(wMonitor);
             _tMonitor.SetApartmentState(ApartmentState.STA);
             _debugMode.ConsoleWriteLine("Connecting to PLC...");

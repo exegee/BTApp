@@ -225,10 +225,8 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\Evromat2022_MA595_Awarie.csv" />
-    <None Include="Resources\Evromat2022_MA595_IO v1.7.csv" />
+    <None Include="Resources\Evromat2022_MA595_2_7Awarie.csv" />
     <Resource Include="Resources\Lista_Bramek.csv" />
-    <Resource Include="Resources\Settings.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

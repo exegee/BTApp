@@ -66,7 +66,7 @@ namespace BTApp.Properties {
         ///MASTER;M4501;E01;Przerwany obwód bezpieczeństwa bramek zespołu gilotyny
         ///MASTER;M4502;E02;Przerwany obwód bezpieczeństwa bramek zespołu rozcinania
         ///MASTER;M4503;E03;
-        ///MASTER;M4504;E04;Przerwany obwód bezpieczeństwa bramek zespołu Z
+        ///MASTER;M4504;E04;Przerwany obwód bezpieczeństwa bramek zespołu prowadzenia blachy
         ///MASTER;M4505;E05;
         ///MASTER;M4506;E06;
         ///MASTER;M4507;E07;
@@ -75,12 +75,11 @@ namespace BTApp.Properties {
         ///MASTER;M4510;E10;
         ///MASTER;M4511;E11;
         ///MASTER;M4512;E12;
-        ///MASTER;M4513;E13;
-        ///MASTER;M4 [rest of string was truncated]&quot;;.
+        ///MASTER;M451 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Evromat2022_MA595_Awarie {
+        internal static string Evromat2022_MA595_2_7Awarie {
             get {
-                return ResourceManager.GetString("Evromat2022_MA595_Awarie", resourceCulture);
+                return ResourceManager.GetString("Evromat2022_MA595_2_7Awarie", resourceCulture);
             }
         }
         
@@ -109,16 +108,6 @@ namespace BTApp.Properties {
         internal static string Lista_Bramek {
             get {
                 return ResourceManager.GetString("Lista_Bramek", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 
-        ///.
-        /// </summary>
-        internal static string Settings {
-            get {
-                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
     }

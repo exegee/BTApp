@@ -90,7 +90,7 @@
             </Style.Triggers>
         </Style>-->
     </Window.Resources>
-    <TabControl Background="gray">
+    <TabControl Background="white">
         <TabItem Header="Process View">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -110,7 +110,7 @@
                     <RowDefinition Height="25"></RowDefinition>
                     <RowDefinition Height="25"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="5" Margin="10,0,10,0">
+                <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="5" Margin="10,0,10,-10">
                     <Border.Background>
                         <SolidColorBrush Color="#FF0066CF" Opacity="0.25"/>
                     </Border.Background>
@@ -118,7 +118,7 @@
                         <SolidColorBrush Color="DodgerBlue"/>
                     </Border.BorderBrush>
                 </Border>
-                <Border Grid.Column="4" Grid.Row="3" BorderThickness="5" Margin="10,0,10,0">
+                <Border Grid.Column="4" Grid.Row="3" BorderThickness="5" Margin="10,0,10,-10">
                     <Border.Background>
                         <SolidColorBrush Color="#FF0066CF" Opacity="0.25"/>
                     </Border.Background>
@@ -127,7 +127,7 @@
                     </Border.BorderBrush>
                 </Border>
 
-                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center" Background="gray">
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center" Background="white">
                     <TextBlock Text="ST Combo" FontSize="50"
                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Image Source="{Binding machineStatus, Converter={StaticResource MachineStatusToBitmapConverter}}" HorizontalAlignment="Right"
@@ -192,16 +192,16 @@
                         </StackPanel>
 
                         <!--moc obciążenia rozwijacza-->
-                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
+                        <!--<StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Decoiler load" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding ActualDecoilerLoad}"/>
                                 <Run Text=" %"/>
                             </TextBlock>
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <!--moc obciążenia nawijacza-->
-                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Recoiler load" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding ActualRecoilerLoad}"/>
@@ -210,7 +210,7 @@
                         </StackPanel>
 
                         <!--szerokość pasów ?-->
-                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes width" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesWidth}"/>
@@ -219,7 +219,7 @@
                         </StackPanel>
 
                         <!--ilość pasów ?-->
-                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes quantity" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesNumber}"/>
@@ -255,27 +255,27 @@
 
                         <!--ilość uciętych Arkuszy-->
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Cut sheets/Total amount" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Cut sheets" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesAlreadyCut}"/>
-                                <Run Text="/"/>
-                                <Run Text="{Binding StripesTotalQty}"/>
+                                <!--<Run Text="/"/>
+                                <Run Text="{Binding RemainingStripesToCut}"/>-->
                                 <!--<Run Text="{Binding OrderLength}"/>-->
                                 <Run Text=" Pt."/>
                             </TextBlock>
                         </StackPanel>
 
                         <!--nastawiona ilość-->
-                        <!--<StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
-                            <TextBlock Style="{StaticResource HeaderText}" Text="Amount to cut" HorizontalAlignment="Center"/>
+                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Remain to cut" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
-                                <Run Text="{Binding StripesTotalQty}"/>
+                                <Run Text="{Binding RemainingStripesToCut}"/>
                                 <Run Text=" Pt."/>
                             </TextBlock>
-                        </StackPanel>-->
+                        </StackPanel>
 
                         <!--szerokość pasów ?-->
-                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes Width" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesWidth}"/>
@@ -284,7 +284,7 @@
                         </StackPanel>
 
                         <!--ilość pasów ?-->
-                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes quantity" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesNumber}"/>
@@ -293,11 +293,11 @@
                         </StackPanel>
 
                         <!--długość pasów ?-->
-                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes lenght" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesLength}"/>
-                                <Run Text="Pt."/>
+                                <Run Text="mm"/>
                             </TextBlock>
                         </StackPanel>
 

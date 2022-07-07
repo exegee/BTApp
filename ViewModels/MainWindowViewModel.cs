@@ -70,8 +70,8 @@ namespace BTApp.ViewModels
                 NotifyPropertyChanged();
             }
         }
-        private float _totalLength { get; set; }
-        public float TotalLength
+        private int _totalLength { get; set; }
+        public int TotalLength
         {
             get
             {
@@ -112,8 +112,8 @@ namespace BTApp.ViewModels
             }
         }
 
-        private float _actualDecoilerLoad { get; set; }
-        public float ActualDecoilerLoad
+        private int _actualDecoilerLoad { get; set; }
+        public int ActualDecoilerLoad
         {
             get
             {
@@ -154,8 +154,8 @@ namespace BTApp.ViewModels
             }
         }
 
-        private float _stripesAlreadyCut { get; set; }
-        public float StripesAlreadyCut
+        private int _stripesAlreadyCut { get; set; }
+        public int StripesAlreadyCut
         {
             get
             {
@@ -169,7 +169,7 @@ namespace BTApp.ViewModels
         }
 
         private int _stripesTotalQty { get; set; }
-        public int StripesTotalQty
+        public int RemainingStripesToCut
         {
             get
             {
@@ -393,17 +393,17 @@ namespace BTApp.ViewModels
             //TODO add values scaling
             OperatingMode = devices[0].Value;
             RecoilingSpeed = devices[1].Value;
-            CurrentLengthExecuted = devices[2].Value / 1000f;
-            TotalLength = devices[3].Value / 1000f;
-            ActualDecoilerLoad = devices[4].Value;
+            CurrentLengthExecuted = devices[3].Value / 1000f;
+            TotalLength = devices[4].Value/1000;
+            //ActualDecoilerLoad = devices[4].Value;
             ActualRecoilerLoad = devices[5].Value;
             CuttingSpeed = devices[6].Value;
             StripesAlreadyCut = devices[7].Value;
-            StripesTotalQty = devices[8].Value;
-            StripesWidth = devices[9].Value;
-            StripesNumber = devices[10].Value;
-            StripesLength = devices[11].Value;
-            updateGatesStates(devices[12].Value);
+            RemainingStripesToCut = devices[8].Value;
+            StripesNumber = devices[9].Value + 1;
+            StripesLength = devices[10].Value;
+            StripesWidth = devices[11].Value;
+            updateGatesStates(devices[2].Value);
             NotifyPropertyChanged("ServiceGates");
             //ServiceGates.updateState(13);
             AddGateToDisplay();
@@ -560,14 +560,15 @@ namespace BTApp.ViewModels
                 _plc.updateSettings(Settings);
                 NotifyPropertyChanged("Settings");
                 //DatabaseHelper.DeleteAll<Settings>();
-                CsvUploadHelper<Settings>.SaveSettingsInCSV(
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Settings.csv"), new Settings());
+                CsvUploadHelper<Settings>.ClearSettingCSV(
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Settings.csv"));
             }
         }
 
         public void SaveSettingsInDB()
         {
-            _plc.updateSettings(Settings);
+            if(_plc != null)
+                _plc.updateSettings(Settings);
             //_fTPClient.updateSettings(Settings);
             //_folderScan.updateSettings(Settings);
             //TODO save new settings
@@ -609,7 +610,6 @@ namespace BTApp.ViewModels
         {
             List<Settings> setList = CsvUploadHelper<Settings>.GetDataFromCSV(
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Settings.csv"));//new List<Settings>();//TODO change for .csv
-            ReturnToDefault();
             if (setList.Count == 0)
             {
                 ReturnToDefault();

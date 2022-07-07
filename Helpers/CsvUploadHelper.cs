@@ -128,7 +128,7 @@ namespace BTApp.Helpers
             List<T> records = new List<T>();
 
             using (var writer = new StreamWriter(path))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            using (var csv = new CsvWriter(writer, config))
             {
                 csv.WriteRecords(records);
             }
@@ -152,7 +152,30 @@ namespace BTApp.Helpers
             records.Add(record);
 
             using (var writer = new StreamWriter(path))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            using (var csv = new CsvWriter(writer, config))
+            {
+                csv.WriteRecords(records);
+            }
+        }
+
+        public static void ClearSettingCSV(string path)
+        {
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
+
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                // Don't write the header again.
+                HasHeaderRecord = false,
+                Delimiter = ";"
+            };
+
+            List<T> records = new List<T>();
+
+            using (var writer = new StreamWriter(path))
+            using (var csv = new CsvWriter(writer, config))
             {
                 csv.WriteRecords(records);
             }

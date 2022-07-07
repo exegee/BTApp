@@ -1,0 +1,177 @@
+﻿Module;Device;Code;Description
+MASTER;M4500;E00;Przerwany obwód bezpieczeństwa stopów awaryjnych
+MASTER;M4501;E01;Przerwany obwód bezpieczeństwa bramek zespołu gilotyny
+MASTER;M4502;E02;Przerwany obwód bezpieczeństwa bramek zespołu rozcinania
+MASTER;M4503;E03;
+MASTER;M4504;E04;Przerwany obwód bezpieczeństwa bramek zespołu prowadzenia blachy
+MASTER;M4505;E05;
+MASTER;M4506;E06;
+MASTER;M4507;E07;
+MASTER;M4508;E08;
+MASTER;M4509;E09;
+MASTER;M4510;E10;
+MASTER;M4511;E11;
+MASTER;M4512;E12;
+MASTER;M4513;E13;
+MASTER;M4514;E14;Awaria modułu master sieci CC-Link
+MASTER;M4515;E15;Niskie napięcie baterii PLC
+R;M4516;E100;
+R;M4517;E101;
+R;M4518;E102;Awaria stacji zdalnych I/O ST1 zespołu R
+R;M4519;E103;Błędne utawienie ramienia rolki dociskowej
+R;M4520;E104;Awaria połączenia sieciowego falownika RU1
+R;M4521;E105;Awaria połączenia sieciowego falownika RU4
+R;M4522;E106;Ramię reakcyjne rozwijacza za wysoko
+R;M4523;E107;Awaria napędu RU1
+R;M4524;E108;Awaria napędu RU4
+R;M4525;E109;Awaria czasu pracy hydrauliki zespołu R
+R;M4526;E110;Awaria falownika wózka kręgów RU2
+R;M4527;E111;Podpora rozwijacza nie została zamknięta
+R;M4528;E112;Wał wrzeciona rozwijacza nie został podparty
+R;M4529;E113;Awaria zasilania +24VDC zespołu R
+R;M4530;E114;Uszkodzenie w obwodzie czujnika ramienia reakcyjnego
+R;M4531;E115;
+P;M4532;E200;Awaria obwodu bezpieczeństwa stopów awaryjnych
+P;M4533;E201;
+P;M4534;E202;Awaria stacji zdalnych I/O ST2 zespołu P
+P;M4535;E203;
+P;M4536;E204;Awaria połączenia sieciowego falownika PU1
+P;M4537;E205;Awaria zabezpieczenia napędów podnoszenia prostownicy
+P;M4538;E206;Awaria zakresu regulacji prostownicy
+P;M4539;E207;Awaria napędu PU1
+P;M4540;E208;
+P;M4541;E209;Awaria zbyt dużej wartości zapasu wysuniętego przez prostownicę
+P;M4542;E210;Podpora wałów rozcinania wzdłużnego nie na miejscu
+P;M4543;E211;Uszkodzenie w obwodzie czujnika pomiaru szerokości blachy
+P;M4544;E212;Awaria czasu pracy hydrauliki zespołu P
+P;M4545;E213;Awaria zasilania +24VDC zespołu P
+P;M4546;E214;Uszkodzenie w obwodzie czujnika pomiaru połozenia prostownicy początek
+P;M4547;E215;Uszkodzenie w obwodzie czujnika pomiaru połozenia prostownicy koniec
+C;M4548;E300;
+C;M4549;E301;Awaria obwodu bezpieczeństwa bramek serwisowych zespołu C
+C;M4550;E302;Awaria stacji zdalnych I/O ST3 zespołu C
+C;M4551;E303;
+C;M4552;E304;
+C;M4553;E305;Awaria połączenia sieciowego falownika CU1
+C;M4554;E306;Awaria położenia gilotyny w trakcie wysuwu
+C;M4555;E307;
+C;M4556;E308;Awaria napędu rolki rozcinania wzdłużnego
+C;M4557;E309;
+C;M4558;E310;
+C;M4559;E311;
+C;M4560;E312;Awaria czasu pracy hydrauliki zespołu C
+C;M4561;E313;Awaria zasilania +24VDC zespołu C
+C;M4562;E314;
+C;M4563;E315;
+G;M4564;E400;
+G;M4565;E401;Awaria obwodu bezpieczeństwa bramek serwisowych zespołu G
+G;M4566;E402;Awaria stacji zdalnych I/O ST4 zespołu G
+G;M4567;E403;Awaria stacji zdalnych I/O ST5 zespołu G
+G;M4568;E404;Awaria połaczenia sieciowego falownika GU1
+G;M4569;E405;Awaria połaczenia sieciowego falownika GU2
+G;M4570;E406;Awaria gilotyna  - gilotyna nie jest w górnym położeniu
+G;M4571;E407;Awaria napędu GU1
+G;M4572;E408;Awaria napędu GU2
+G;M4573;E409;Awaria czasu cięcia gilotyną
+G;M4574;E410;Awaria przekroczenia czasu pracy platformy odkaładacza
+G;M4575;E411;
+G;M4576;E412;
+G;M4577;E413;Awaria zasilania +24VDC zespołu G
+G;M4578;E414;Awaria hydrauliki zespołu G
+G;M4579;E415;Awaria w obwodzie 1 ( kanał 1 ) położenia stołu odbiorczego
+G;M4580;E416;Awaria w obwodzie 2 ( kanał 2 ) położenia stołu odbiorczego
+G;M4581;E417;Awaria w obwodzie 3 ( kanał 3) położenia stołu odbiorczego
+G;M4582;E418;Awaria falownika osłony
+G;M4583;E419;Awaria falownika wózka odbiorczego
+G;M4584;E420;Awaria falownika odboju
+G;M4585;E421;
+G;M4586;E422;
+G;M4587;E423;
+G;M4588;E424;
+G;M4589;E425;
+G;M4590;E426;
+G;M4591;E427;
+G;M4592;E428;
+G;M4593;E429;
+G;M4594;E430;
+G;M4595;E431;
+T;M4596;E500;
+T;M4597;E501;
+T;M4598;E502;
+T;M4599;E503;
+T;M4600;E504;
+T;M4601;E505;
+T;M4602;E506;
+T;M4603;E507;
+T;M4604;E508;
+T;M4605;E509;
+T;M4606;E510;
+T;M4607;E511;
+T;M4608;E512;
+T;M4609;E513;
+T;M4610;E514;
+T;M4611;E515;
+T;M4612;E516;
+T;M4613;E517;
+T;M4614;E518;
+T;M4615;E519;
+T;M4616;E520;
+T;M4617;E521;
+T;M4618;E522;
+T;M4619;E523;
+T;M4620;E524;
+T;M4621;E525;
+T;M4622;E526;
+T;M4623;E527;
+T;M4624;E528;
+T;M4625;E529;
+T;M4626;E530;
+T;M4627;E531;
+Z;M4628;E600;
+Z;M4629;E601;
+Z;M4630;E602;Awaria stacji zdalnych I/O ST7 zespołu Z
+Z;M4631;E603;Awaria stacji zdalnych I/O ST8 zespołu Z
+Z;M4632;E604;Awaria stacji zdalnych I/O ST9 zespołu Z
+Z;M4633;E605;
+Z;M4634;E606;Awaria falownika wału prowadzącego ZU1
+Z;M4635;E607;Awaria falownika rolki wprowadzania ZU2
+Z;M4636;E608;Awaria wał prowadzący poza zakresem pracy
+Z;M4637;E609;Uszkodzenie w obwodzie czujnika ciśnienia hamulca nr 1
+Z;M4638;E610;Uszkodzenie w obwodzie czujnika ciśnienia hamulca nr 2
+Z;M4639;E611;Awaria wał prowadzący nie jest w pozycji dolnej
+Z;M4640;E612;Stół pomocniczy nawijacza nie jest w dolnej pozycji
+Z;M4641;E613;
+Z;M4642;E614;Uszkodzenie w obwodzie czujnika ramienia reakcyjnego w dole kompensacyjnym
+Z;M4643;E615;Uszkodzenie w obwodzie czujnika położenia wału prowadzącego
+N;M4644;E700;Pozycja nawijacza poza zakresem pracy
+N;M4645;E701;Za duzy krąg nawijanej blachy roziętej, koniec zakresu separatora
+N;M4646;E702;Awaria stacji zdalnych I/O ST10 zespołu N
+N;M4647;E703;Awaria stacji zdalnych I/O ST11 zespołu N
+N;M4648;E704;Awaria stacji zdalnych I/O ST12 zespołu N
+N;M4649;E705;Awaria połaczenia sieciowego falownika NU1
+N;M4650;E706;Awaria połaczenia sieciowego falownika NU4
+N;M4651;E707;Awaria ramię w dole kompensacyjnym za wysoko
+N;M4652;E708;Awaria napędu NU1
+N;M4653;E709;Awaria napędu NU4
+N;M4654;E710;Awaria czasu pracy hydrauliki zespołu N
+N;M4655;E711;Awaria falownika NU2 wózka kręgów 
+N;M4656;E712;Brama podpory nawijacza niezamknięta
+N;M4657;E713;Wał wrzeciona nawijacza niepodparty
+N;M4658;E714;Awaria zasilania +24VDC zespołu N
+N;M4659;E715;0
+N;M4660;E716;Uszkodzenie w obwodzie czujnika krawędzi nawijanej blachy
+N;M4661;E717;
+N;M4662;E718;
+N;M4663;E719;
+N;M4664;E720;
+N;M4665;E721;
+N;M4666;E722;
+N;M4667;E723;
+N;M4668;E724;
+N;M4669;E725;
+N;M4670;E726;
+N;M4671;E727;
+N;M4672;E728;
+N;M4673;E729;
+N;M4674;E730;
+N;M4675;E731;
