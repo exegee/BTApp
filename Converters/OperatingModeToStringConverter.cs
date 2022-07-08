@@ -16,10 +16,14 @@ namespace BTApp.Converters
             var i = (PLCOperatingMode)value;
             switch (i)
             {
-                case PLCOperatingMode.Recoiling:
-                    return "Recoiling";
-                case PLCOperatingMode.Sheeting:
-                    return "Sheeting";
+                case PLCOperatingMode.Recoiling_NoCutting:
+                    return "Recoiling without cutting";
+                case PLCOperatingMode.Recoiling_Cutting:
+                    return "Recoiling with cutting";
+                case PLCOperatingMode.Sheeting_NoCutting:
+                    return "Sheeting without cutting";
+                case PLCOperatingMode.Sheeting_Cutting:
+                    return "Sheeting with cutting";
                 default:
                     return "Indefinite";//No Data
             }

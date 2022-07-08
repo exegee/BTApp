@@ -16,8 +16,8 @@ namespace BTApp.Converters
         {
             int numbrOfGatesOpened = ((List<ServiceGate>)value).Count;
             if (numbrOfGatesOpened > 0)
-                return "Gates Opened";
-            return "Gates Closed";
+                return "Service gates opened!";
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

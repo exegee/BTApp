@@ -14,11 +14,15 @@ namespace BTApp.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             
-            if((string)parameter == "Recoiling" && (PLCOperatingMode)value == PLCOperatingMode.Recoiling)
+            if((string)parameter == "Recoiling" && 
+                ((PLCOperatingMode)value == PLCOperatingMode.Recoiling_NoCutting ||
+                (PLCOperatingMode)value == PLCOperatingMode.Recoiling_Cutting))
             {
                 return "Visible";
             }
-            else if ((string)parameter == "Sheeting" && (PLCOperatingMode)value == PLCOperatingMode.Sheeting)
+            else if ((string)parameter == "Sheeting" && 
+                ((PLCOperatingMode)value == PLCOperatingMode.Sheeting_NoCutting ||
+                (PLCOperatingMode) value == PLCOperatingMode.Sheeting_Cutting ))
             {
                return "Visible";
             }

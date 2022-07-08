@@ -31,6 +31,7 @@
         <converters:ServiceGatesToStringConverter x:Key="ServiceGatesToString"/>
         <converters:PLCConnectionStatusToVisibilityConverter x:Key="PLCConnectionStatusToVisibility"/>
         <converters:PLCConnectionStatusToGatesStateErrorDisplay x:Key="PLCConnectionStatusToGatesStateErrorDisplay"/>
+        <converters:MachineStatusToStringConverter x:Key="MachineStatusToStringConverter"/>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Foreground" Value="Black"/>
@@ -98,19 +99,20 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <!--<ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>-->
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
                     <RowDefinition Height="2*"></RowDefinition>
-                    <RowDefinition Height="16*"></RowDefinition>
-                    <RowDefinition Height="2*"></RowDefinition>
-                    <RowDefinition Height="7*"></RowDefinition>
+                    <RowDefinition Height="6*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="25"></RowDefinition>
                     <RowDefinition Height="25"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="5" Margin="10,0,10,-10">
+                <!--<Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="5" Margin="10,0,10,-10">
                     <Border.Background>
                         <SolidColorBrush Color="#FF0066CF" Opacity="0.25"/>
                     </Border.Background>
@@ -125,17 +127,15 @@
                     <Border.BorderBrush>
                         <SolidColorBrush Color="DodgerBlue"/>
                     </Border.BorderBrush>
-                </Border>
+                </Border>-->
 
-                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center" Background="white">
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Center" Background="white">
                     <TextBlock Text="ST Combo" FontSize="50"
                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Image Source="{Binding machineStatus, Converter={StaticResource MachineStatusToBitmapConverter}}" HorizontalAlignment="Right"
-                        Width="40" Height="40" Margin="15,0,0,0"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="0" Grid.ColumnSpan="5" Margin="0,78,0,0" Grid.RowSpan="2" >
-                    <Image MaxHeight="550" Source="Assets/Images/2022-03-18 - 083.000 - Widok poglądowy.jpg" />
+                <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,0,0">
+                    <Image MaxHeight="300" Source="Assets/Images/2022-03-18 - 083.000 - Widok poglądowy.jpg" />
                 </StackPanel>
 
 
@@ -150,17 +150,27 @@
                 <!--#############################################-->
                 <!-- **************** NAGŁÓWEK ***************** -->
 
-                <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center"  VerticalAlignment="Top" Orientation="Horizontal" Margin="0,4,0,0">
-                    <TextBlock Text="Current production: " FontSize="45" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding OperatingMode, Converter={StaticResource OperatingModeToString}}" FontStyle="Italic" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="DarkOrange"/>
+                <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center"  VerticalAlignment="Center" Orientation="Vertical" Margin="0,4,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Production status: " FontSize="40" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding machineStatus, Converter={StaticResource MachineStatusToStringConverter}}" FontStyle="Italic" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="DarkOrange"/>
+                        <Image Source="{Binding machineStatus, Converter={StaticResource MachineStatusToBitmapConverter}}" HorizontalAlignment="Right"
+                        Width="40" Height="40" Margin="15,5,10,0"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical" >
+                        <TextBlock Text="{Binding ServiceGatesToDisplay, Converter={StaticResource ServiceGatesToString}}" FontStyle="Italic" FontSize="45" 
+                           Foreground="{Binding ServiceGatesToDisplay, Converter={StaticResource ServiceGatesToColor}}"
+                           Visibility="{Binding isPLCConnected, Converter={StaticResource PLCConnectionStatusToVisibility}}"/>
+                    </StackPanel>
                 </StackPanel>
+
 
 
 
                 <!--#########################################################-->
                 <!-- ************** DANE O PRODUKCJI PRZEWIJANIE *********** -->
 
-                <DockPanel Grid.Row="2" Grid.ColumnSpan="5" Visibility="{Binding OperatingMode, Converter={StaticResource OperatingModeToVisibilityOpt}, ConverterParameter=Recoiling}" Margin="0,78,478,0" Grid.RowSpan="2">
+                <DockPanel Grid.Row="3" Grid.ColumnSpan="3" Margin="0,60,0,0" Grid.RowSpan="2" Visibility="{Binding OperatingMode, Converter={StaticResource OperatingModeToVisibilityOpt}, ConverterParameter=Recoiling}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -169,13 +179,13 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <!--<ColumnDefinition Width="*"/>-->
                         </Grid.ColumnDefinitions>
                         <!--Szybkość przewijanej blachy-->
                         <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Recoiling speed" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
-                                <Run Text="{Binding RecoilingSpeed}"/>
+                                <Run Text="{Binding RecoilingSpeed, StringFormat={}{0:#,0.00}}"/>
                                 <Run Text=" m/min"/>
                             </TextBlock>
                         </StackPanel>
@@ -184,9 +194,9 @@
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Recoiled distance" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40,0,0,0"  Style="{StaticResource DataText}">
-                                <Run Text="{Binding CurrentLengthExecuted}"/>
+                                <Run Text="{Binding CurrentLengthExecuted, StringFormat={}{0:#,0.00}}"/>
                                 <Run Text="/"/>
-                                <Run Text="{Binding TotalLength}"/>
+                                <Run Text="{Binding TotalLength, StringFormat={}{0:#,0.00}}"/>
                                 <Run Text=" m"/>
                             </TextBlock>
                         </StackPanel>
@@ -201,7 +211,7 @@
                         </StackPanel>-->
 
                         <!--moc obciążenia nawijacza-->
-                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Recoiler load" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding ActualRecoilerLoad}"/>
@@ -210,13 +220,13 @@
                         </StackPanel>
 
                         <!--szerokość pasów ?-->
-                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
+                        <!--<StackPanel Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes width" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesWidth}"/>
                                 <Run Text=" mm"/>
                             </TextBlock>
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <!--ilość pasów ?-->
                         <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
@@ -233,7 +243,7 @@
                 <!--#########################################################-->
                 <!-- ************* DANE O PRODUKCJI ARKUSZOWANIE *********** -->
 
-                <DockPanel Grid.Row="2" Grid.ColumnSpan="5" Visibility="{Binding OperatingMode, Converter={StaticResource OperatingModeToVisibilityOpt}, ConverterParameter=Sheeting}" Margin="0,78,478,0" Grid.RowSpan="2">
+                <DockPanel Grid.Row="3" Grid.ColumnSpan="3"  Margin="0,60,0,0" Grid.RowSpan="2" Visibility="{Binding OperatingMode, Converter={StaticResource OperatingModeToVisibilityOpt}, ConverterParameter=Sheeting}">
                     <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -265,7 +275,7 @@
                             </TextBlock>
                         </StackPanel>
 
-                        <!--nastawiona ilość-->
+                        <!--pozostało do ucięcia-->
                         <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Remain to cut" HorizontalAlignment="Center"/>
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
@@ -275,16 +285,16 @@
                         </StackPanel>
 
                         <!--szerokość pasów ?-->
-                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
+                        <!--<StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes Width" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesWidth}"/>
                                 <Run Text=" mm"/>
                             </TextBlock>
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <!--ilość pasów ?-->
-                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
                             <TextBlock Style="{StaticResource HeaderText}" Text="Stripes quantity" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource DataText}">
                                 <Run Text="{Binding StripesNumber}"/>
@@ -304,14 +314,38 @@
                     </Grid>
                 </DockPanel>
 
+                <DockPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"  Margin="30,30,30,0" Grid.RowSpan="4">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <!--<ColumnDefinition Width="*"/>-->
+                        </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Gates Status: " FontSize="45" Margin="108,0,0,0" Grid.Row="2"  Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Text="Stripes Widths" FontSize="50" Grid.Row="0" HorizontalAlignment="Center"/>
+                        <DataGrid Margin="100,25,100,25" CanUserResizeRows="False" CanUserAddRows="False" AutoGenerateColumns="False" FontSize="30" FontWeight="Bold"
+                            ItemsSource="{Binding StripesWidth}"  VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Background="White" CanUserSortColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="1*" FontWeight="SemiBold"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Width, StringFormat={}{0:#,0.00}}" Width="2*" FontWeight="SemiBold"/>
+                                <DataGridTextColumn Header="Units" Binding="{Binding Unit}" Width="1*" FontWeight="SemiBold"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </DockPanel>
+
+
+
+                <!--<TextBlock Text="Gates Status: " FontSize="45" Margin="108,0,0,0" Grid.Row="2"  Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding ServiceGatesToDisplay, Converter={StaticResource ServiceGatesToString}}" FontStyle="Italic" FontSize="45" 
                            Foreground="{Binding ServiceGatesToDisplay, Converter={StaticResource ServiceGatesToColor}}" Grid.Row="3"  Grid.Column="4" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding isPLCConnected, Converter={StaticResource PLCConnectionStatusToVisibility}}"/>
-                <TextBlock Text="No Clue" FontSize="45" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                <TextBlock Text="" FontSize="45" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Visibility="{Binding isPLCConnected, Converter={StaticResource PLCConnectionStatusToGatesStateErrorDisplay}}"
-                           Grid.Row="3"  Grid.Column="4" />
+                           Grid.Row="3"  Grid.Column="4" />-->
 
 
                 <!--Szczegóły-->
@@ -914,12 +948,12 @@
                 </Rectangle>
 
                 <Image Height="620" Source="Assets/Images/083.000 - top.bmp" HorizontalAlignment="Center" Margin="30,0,30,0" Panel.ZIndex="-1"/>
-                <DataGrid Margin="5,40,5,15" CanUserResizeRows="False" CanUserAddRows="False" AutoGenerateColumns="False"
-                        ItemsSource="{Binding ServiceGatesToDisplay}"  VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
+                <DataGrid Margin="500,40,500,15" CanUserResizeRows="False" CanUserAddRows="False" AutoGenerateColumns="False" Background="White"
+                        ItemsSource="{Binding ServiceGatesToDisplay}"  VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" FontSize="25" FontWeight="Bold">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="2*"/>
-                        <DataGridTextColumn Header="Active" Binding="{Binding Active}" Width="2*"/>
-                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="4*"/>
+                        <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="*" FontWeight="SemiBold"/>
+                        <!--<DataGridTextColumn Header="Active" Binding="{Binding Active}" Width="2*"/>-->
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="4*" FontWeight="SemiBold"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

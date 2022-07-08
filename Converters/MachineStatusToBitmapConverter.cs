@@ -14,8 +14,8 @@ namespace BTApp.Converters
             var bitmapImage = "";
             switch (state)
             {
-                case 0:
-                    bitmapImage = "Assets/Images/error.png";
+                case int v when (v > 0 && v < 100):
+                    bitmapImage = "Assets/Images/ok.png";
                     break;
                 case 101:
                     bitmapImage = "Assets/Images/warning.png";
@@ -24,7 +24,7 @@ namespace BTApp.Converters
                     bitmapImage = "Assets/Images/error.png";
                     break;
                 default:
-                    bitmapImage = "Assets/Images/ok.png";
+                    bitmapImage = "Assets/Images/error.png";
                     break;
             }
             return bitmapImage;

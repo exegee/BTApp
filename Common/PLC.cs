@@ -26,7 +26,7 @@ namespace BTApp.Common
 
         //PLC constants
         private const string PLC_READY_REG = "SM400";
-        private const string PLC_MACHINESTATE_REG = "D4500";
+        private const string PLC_MACHINESTATE_REG = "D4500";//word
         //private const string PLC_LOADORDER_REG = "M4400";
         static readonly object _locker = new object();
 
@@ -55,19 +55,19 @@ namespace BTApp.Common
         /// </summary>
         public List<Device> Devices = new List<Device>()
         {
-         new Device{Name="D4501", Size=1, Value=0, OldValue=0, Comment="Operating Mode"},//ok
-         new Device{Name="D4012", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},//ok
-         new Device{Name="D4502", Size=2, Value=0, OldValue=0, Comment="Service Gates"},//ok
-         new Device{Name="D4000", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},//ok
-         new Device{Name="D5860", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},//ok
+         new Device{Name="D4501", Size=1, Value=0, OldValue=0, Comment="Operating Mode"},//word
+         new Device{Name="D4012", Size=2, Value=0, OldValue=0, Comment="Recoiling Speed"},//float
+         new Device{Name="D4502", Size=2, Value=0, OldValue=0, Comment="Service Gates"},//double word
+         new Device{Name="D4000", Size=2, Value=0, OldValue=0, Comment="Current sheet lenght executed"},//float mmb
+         new Device{Name="D5860", Size=2, Value=0, OldValue=0, Comment="Total Lenght"},//double word
          //new Device{Name="D2102", Size=2, Value=0, OldValue=0, Comment="Actual decoiler load"},//no data
-         new Device{Name="D802", Size=1, Value=0, OldValue=0, Comment="Actual recoiler load"},//ok
-         new Device{Name="D4010", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},//ok
-         new Device{Name="D5962", Size=1, Value=0, OldValue=0, Comment="Already cut"},//ok
-         new Device{Name="D5966", Size=1, Value=0, OldValue=0, Comment="Remaining sheets to cut"},//ok
-         new Device{Name="D4302", Size=1, Value=0, OldValue=0, Comment="Number of knifes"},//ok
-         new Device{Name="D5960", Size=2, Value=0, OldValue=0, Comment="Stripes length"},//ok       
-         new Device{Name="D13000", Size=2, Value=0, OldValue=0, Comment="Stripe 1 Width"},
+         new Device{Name="D802", Size=1, Value=0, OldValue=0, Comment="Actual recoiler load"},//word
+         new Device{Name="D4010", Size=2, Value=0, OldValue=0, Comment="Cutting speed"},//double word
+         new Device{Name="D5962", Size=2, Value=0, OldValue=0, Comment="Already cut"},//double word
+         new Device{Name="D5966", Size=1, Value=0, OldValue=0, Comment="Remaining sheets to cut"},//word
+         new Device{Name="D4302", Size=1, Value=0, OldValue=0, Comment="Number of knives"},//word
+         new Device{Name="D5960", Size=2, Value=0, OldValue=0, Comment="Stripes length"},//double word 
+         new Device{Name="D13000", Size=2, Value=0, OldValue=0, Comment="Stripe 1 Width"},//float
          new Device{Name="D13002", Size=2, Value=0, OldValue=0, Comment="Stripe 2 Width"},
          new Device{Name="D13004", Size=2, Value=0, OldValue=0, Comment="Stripe 3 Width"},
          new Device{Name="D13006", Size=2, Value=0, OldValue=0, Comment="Stripe 4 Width"},
@@ -138,8 +138,7 @@ namespace BTApp.Common
             int connectionStatus;
             PLCConnectionStatus isConnectedMem = PLCConnectionStatus.Connecting;
             int currentMachineStateCode = 0;
-            // Bufor danych pobranych z PLC
-            int[] readBuffer = new int[16];
+
             // Otwórz połączenie z PLC
             while (true)
             {
@@ -191,6 +190,9 @@ namespace BTApp.Common
                             // Monitor
                             foreach (Device device in Devices)
                             {
+                                // Bufor danych pobranych z PLC
+                                int[] readBuffer = new int[3];
+
                                 _ActLCPUTCP.ReadDeviceBlock(device.Name, device.Size, out readBuffer[0]);
                                 ushort b0 = (ushort)readBuffer[0];
                                 ushort b1 = (ushort)readBuffer[1];
@@ -204,6 +206,7 @@ namespace BTApp.Common
                                     device.OldValue = device.Value;
                                     OnMonitorValueChange();
                                 }
+
                             }
 
                             //if (NewOrderFlag)
@@ -381,7 +384,7 @@ namespace BTApp.Common
 
         private void CheckForPlcErrors()
         {
-            Console.WriteLine("looking for errors");
+            //Console.WriteLine("looking for errors");
             ActiveErrors.Clear();
             string szDevice = findFirstWordAddress(_possiblePlcErrorsList[0].Device);//find the beggining of a word
             int BufferSize = findBufferSize(szDevice, _possiblePlcErrorsList[_possiblePlcErrorsList.Count-1].Device);
@@ -433,7 +436,7 @@ namespace BTApp.Common
                         {
                             tempVal.PreviousState = tempVal.CurrentState;
                             tempVal.CurrentState = true;
-                            Console.WriteLine($"Error occured on adress: {tempVal.Device}");
+                            //Console.WriteLine($"Error occured on adress: {tempVal.Device}");
                             ActiveErrors.Add(tempVal);
                             if (!tempVal.PreviousState)
                             {

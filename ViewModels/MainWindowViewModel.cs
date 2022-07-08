@@ -70,8 +70,8 @@ namespace BTApp.ViewModels
                 NotifyPropertyChanged();
             }
         }
-        private int _totalLength { get; set; }
-        public int TotalLength
+        private float _totalLength { get; set; }
+        public float TotalLength
         {
             get
             {
@@ -182,19 +182,19 @@ namespace BTApp.ViewModels
             }
         }
 
-        private float _stripesWidth { get; set; }
-        public float StripesWidth
-        {
-            get
-            {
-                return _stripesWidth;
-            }
-            set
-            {
-                _stripesWidth = value;
-                NotifyPropertyChanged();
-            }
-        }
+        //private float _stripesWidth { get; set; }
+        //public float StripesWidth
+        //{
+        //    get
+        //    {
+        //        return _stripesWidth;
+        //    }
+        //    set
+        //    {
+        //        _stripesWidth = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
 
         private int _stripesNumber { get; set; }
         public int StripesNumber
@@ -309,6 +309,8 @@ namespace BTApp.ViewModels
         public List<ServiceGate> ServiceGates { get; set; }
         public List<ServiceGate> ServiceGatesToDisplay { get; set; }
 
+        public List<Stripe> StripesWidth { get; set; }
+
         private PLC _plc;
         //private FolderScan _folderScan;
         private OrderConverter _orderConverter;
@@ -394,7 +396,7 @@ namespace BTApp.ViewModels
             OperatingMode = devices[0].Value;
             RecoilingSpeed = convertBinaryToFloat(devices[1].Value);
             CurrentLengthExecuted = convertBinaryToFloat(devices[3].Value) / 1000f;
-            TotalLength = devices[4].Value/1000;
+            TotalLength = devices[4].Value/1000f;
             //ActualDecoilerLoad = devices[4].Value;
             ActualRecoilerLoad = devices[5].Value;
             CuttingSpeed = devices[6].Value;
@@ -402,7 +404,9 @@ namespace BTApp.ViewModels
             RemainingStripesToCut = devices[8].Value;
             StripesNumber = devices[9].Value + 1;
             StripesLength = devices[10].Value;
-            StripesWidth = devices[11].Value;
+            StripesWidth =  new List<Stripe>(GetStripesWidths(devices));
+            NotifyPropertyChanged("StripesWidth");
+            //StripesWidth = devices[11].Value;
             updateGatesStates(devices[2].Value);
             NotifyPropertyChanged("ServiceGates");
             //ServiceGates.updateState(13);
@@ -685,6 +689,28 @@ namespace BTApp.ViewModels
                 NotifyPropertyChanged($"ServiceGates[{i}].Active");
             }
         }
+
+        private List<Stripe> GetStripesWidths(ObservableCollection<Device> devices)
+        {
+            List<Stripe> stripesWidths = new List<Stripe>();
+
+            for (int i = 11; i < devices.Count; i++)
+            {
+                if (devices[i].Value >= 0)
+                {
+                    Stripe stripe = new Stripe()
+                    {
+                        Number = i - 10,
+                        Width = convertBinaryToFloat(devices[i].Value),
+                        Unit = "mm"
+                    };
+                    stripesWidths.Add(stripe);
+                }
+            }
+
+            return stripesWidths;
+        }
+
 
     }
 }

@@ -52,6 +52,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Stolarczyk Ikona.ico</ApplicationIcon>
@@ -146,6 +147,7 @@
     <Compile Include="Commands\WriteDataTestCommand.cs" />
     <Compile Include="Common\FTPClient.cs" />
     <Compile Include="Common\OrderConverter.cs" />
+    <Compile Include="Converters\MachineStatusToStringConverter.cs" />
     <Compile Include="Converters\PLCConnectionStatusToGatesStateErrorDisplay.cs" />
     <Compile Include="Converters\PLCConnectionStatusToVisibilityConverter.cs" />
     <Compile Include="Converters\MachineStatusToBitmapConverter.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Models\ServiceGates.cs" />
     <Compile Include="Models\Settings.cs" />
+    <Compile Include="Models\Stripes.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="Validators\IPAddressValidator.cs" />
