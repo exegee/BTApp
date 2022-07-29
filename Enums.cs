@@ -6,7 +6,7 @@ namespace BTApp
     {
         Connecting = 0,
         Connected = 1,
-        NotConnected = 2        
+        NotConnected = 2
     }
     public class Machine
     {

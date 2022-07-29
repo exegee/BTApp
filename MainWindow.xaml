@@ -375,11 +375,11 @@
 
                 <StatusBar Grid.Row="5" Grid.ColumnSpan="5" Margin="0,25,0,0" Grid.RowSpan="2">
                     <StatusBarItem Width="260">
-                        Numer seryjny: 512NRS150011122020
+                        Numer seryjny: MA595
                     </StatusBarItem>
                     <Separator Width="1"/>
                     <StatusBarItem Width="260">
-                        Data produkcji: 11.12.2020
+                        Data produkcji: 07.2022
                     </StatusBarItem>
                     <Separator Width="1"/>
                     <StatusBarItem Width="260" HorizontalAlignment="Right">

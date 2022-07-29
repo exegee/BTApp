@@ -13,13 +13,13 @@ namespace BTApp.Converters
             switch (value)
             {
                 case PLCConnectionStatus.Connected:
-                    message = "Połączono";
+                    message = "Connected";
                     break;
                 case PLCConnectionStatus.NotConnected:
-                    message = "Brak połączenia z linią!";
+                    message = "Connection failed";
                     break;
                 case PLCConnectionStatus.Connecting:
-                    message = "Łączenie...";
+                    message = "Connecting...";
                     break;
             }
             return message;
